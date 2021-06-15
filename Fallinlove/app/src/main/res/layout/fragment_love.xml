@@ -217,11 +217,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:background="@drawable/bg_text_view_count"
                 android:text="158"
                 android:textColor="@color/red_custom"
+                android:background="@drawable/bg_days"
                 android:textSize="24sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:shadowColor="@color/pink_custom"
+                android:shadowDx="4dp"
+                android:shadowDy="4dp"
+                android:shadowRadius="100dp"/>
 
             <TextView
                 android:layout_width="wrap_content"

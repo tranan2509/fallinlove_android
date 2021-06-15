@@ -1,0 +1,12 @@
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/btn_shadow"/>
+    <item
+        android:drawable="@drawable/bg_days"
+        android:bottom="4px"
+        android:top="3px"
+        android:right="4px"
+        android:left="3px"/>
+
+</layer-list>
