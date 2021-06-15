@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activity.ui.LoveFragment"
+    android:background="@color/white">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           android:text="LOVE DAYS"
+            android:textColor="@color/red_custom"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.03"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtViewYear"
+                android:layout_width="@dimen/size_text_view_date"
+                android:layout_height="@dimen/size_text_view_date"
+                android:background="@drawable/bg_text_view_count"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/txtViewMonth"
+                android:layout_marginStart="48dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtViewYear"
+                app:layout_constraintStart_toStartOf="@id/txtViewYear"
+                app:layout_constraintEnd_toEndOf="@id/txtViewYear"
+                android:layout_marginTop="4dp"
+                android:text="Năm"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtViewMonth"
+                android:layout_width="@dimen/size_text_view_date"
+                android:layout_height="@dimen/size_text_view_date"
+                android:background="@drawable/bg_text_view_count"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtViewYear"
+                app:layout_constraintEnd_toStartOf="@id/txtViewWeek"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtViewMonth"
+                app:layout_constraintStart_toStartOf="@id/txtViewMonth"
+                app:layout_constraintEnd_toEndOf="@id/txtViewMonth"
+                android:layout_marginTop="4dp"
+                android:text="Tháng"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtViewWeek"
+                android:layout_width="@dimen/size_text_view_date"
+                android:layout_height="@dimen/size_text_view_date"
+                android:background="@drawable/bg_text_view_count"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtViewMonth"
+                app:layout_constraintEnd_toStartOf="@id/txtViewDay"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtViewWeek"
+                app:layout_constraintStart_toStartOf="@id/txtViewWeek"
+                app:layout_constraintEnd_toEndOf="@id/txtViewWeek"
+                android:layout_marginTop="4dp"
+                android:text="Tuần"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtViewDay"
+                android:layout_width="@dimen/size_text_view_date"
+                android:layout_height="@dimen/size_text_view_date"
+                android:background="@drawable/bg_text_view_count"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtViewWeek"
+                app:layout_constraintEnd_toStartOf="@id/txtViewHour"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtViewDay"
+                app:layout_constraintStart_toStartOf="@id/txtViewDay"
+                app:layout_constraintEnd_toEndOf="@id/txtViewDay"
+                android:layout_marginTop="4dp"
+                android:text="Ngày"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtViewHour"
+                android:layout_width="@dimen/size_text_view_date"
+                android:layout_height="@dimen/size_text_view_date"
+                android:background="@drawable/bg_text_view_count"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtViewDay"
+                app:layout_constraintEnd_toStartOf="@id/txtViewMinute"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtViewHour"
+                app:layout_constraintStart_toStartOf="@id/txtViewHour"
+                app:layout_constraintEnd_toEndOf="@id/txtViewHour"
+                android:layout_marginTop="4dp"
+                android:text="Giờ"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+
+            <TextView
+                android:id="@+id/txtViewMinute"
+                android:layout_width="@dimen/size_text_view_date"
+                android:layout_height="@dimen/size_text_view_date"
+                android:background="@drawable/bg_text_view_count"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtViewHour"
+                app:layout_constraintEnd_toStartOf="@id/txtViewSecond"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtViewMinute"
+                app:layout_constraintStart_toStartOf="@id/txtViewMinute"
+                app:layout_constraintEnd_toEndOf="@id/txtViewMinute"
+                android:layout_marginTop="4dp"
+                android:text="Phút"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtViewSecond"
+                android:layout_width="@dimen/size_text_view_date"
+                android:layout_height="@dimen/size_text_view_date"
+                android:background="@drawable/bg_text_view_count"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/txtViewMinute"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="48dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/txtViewSecond"
+                app:layout_constraintStart_toStartOf="@id/txtViewSecond"
+                app:layout_constraintEnd_toEndOf="@id/txtViewSecond"
+                android:layout_marginTop="4dp"
+                android:text="Giây"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:gravity="center"
+                android:background="@drawable/bg_text_view_count"
+                android:text=""
+                android:textColor="@color/red_custom"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewAvatarMale"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:cardCornerRadius="100dp">
+
+                <ImageView
+                    android:id="@+id/avatarMale"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/avatar"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bg_avatar_purple"/>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/cardViewAvatarMale"
+                app:layout_constraintEnd_toEndOf="@id/cardViewAvatarMale"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="12dp">
+
+                <TextView
+                    android:id="@+id/txtViewAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_age_purple"
+                    android:drawableLeft="@drawable/icons8_male_24"
+                    android:drawablePadding="4dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
+                    android:text="21"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"/>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
