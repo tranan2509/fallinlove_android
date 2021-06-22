@@ -7,6 +7,14 @@
     tools:context=".Activity.ui.LoveFragment"
     android:background="@color/white">
 
+    <ImageView
+        android:id="@+id/imgBgHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg_in_love"
+        android:scaleType="centerCrop"
+        android:visibility="visible"/>
+
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"

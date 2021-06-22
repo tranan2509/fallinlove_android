@@ -8,9 +8,12 @@
     android:background="#faf9fe">
 
     <ImageView
+        android:id="@+id/imgBgHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:src="@drawable/bg_in_love"
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,6 +29,8 @@
                 android:layout_marginTop="36dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
                 android:paddingBottom="8dp">
 
                 <androidx.cardview.widget.CardView
@@ -37,7 +42,7 @@
                     app:layout_constraintRight_toLeftOf="@id/cardViewMonth"
                     android:layout_marginTop="8dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="4dp">
+                    app:cardCornerRadius="@dimen/radius_date">
 
                     <TextView
                         android:id="@+id/txtViewYear"
@@ -70,7 +75,7 @@
                     app:layout_constraintRight_toLeftOf="@id/cardViewWeek"
                     android:layout_marginTop="8dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="4dp">
+                    app:cardCornerRadius="@dimen/radius_date">
 
                     <TextView
                         android:id="@+id/txtViewMonth"
@@ -103,7 +108,7 @@
                     app:layout_constraintRight_toLeftOf="@id/cardViewDay"
                     android:layout_marginTop="8dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="4dp">
+                    app:cardCornerRadius="@dimen/radius_date">
 
                     <TextView
                         android:id="@+id/txtViewWeek"
@@ -136,7 +141,7 @@
                     app:layout_constraintRight_toLeftOf="@id/cardViewHour"
                     android:layout_marginTop="8dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="4dp">
+                    app:cardCornerRadius="@dimen/radius_date">
 
                     <TextView
                         android:id="@+id/txtViewDay"
@@ -169,7 +174,7 @@
                     app:layout_constraintRight_toLeftOf="@id/cardViewMinute"
                     android:layout_marginTop="8dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="4dp">
+                    app:cardCornerRadius="@dimen/radius_date">
 
                     <TextView
                         android:id="@+id/txtViewHour"
@@ -202,7 +207,7 @@
                     app:layout_constraintRight_toLeftOf="@id/cardViewSecond"
                     android:layout_marginTop="8dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="4dp">
+                    app:cardCornerRadius="@dimen/radius_date">
 
                     <TextView
                         android:id="@+id/txtViewMinute"
@@ -235,7 +240,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginTop="8dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="4dp">
+                    app:cardCornerRadius="@dimen/radius_date">
 
                     <TextView
                         android:id="@+id/txtViewSecond"
@@ -390,7 +395,7 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:padding="6dp"
+                    android:padding="4dp"
                     android:src="@drawable/icons8_heart_48"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

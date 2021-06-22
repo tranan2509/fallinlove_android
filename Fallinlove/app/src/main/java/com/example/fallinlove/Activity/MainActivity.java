@@ -1,5 +1,6 @@
 package com.example.fallinlove.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -20,6 +21,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     ChipNavigationBar chipNavigationBar;
+    Intent intentBottom;
     CountDownTimer timer;
     TextView txtViewYear, txtViewMonth, txtViewWeek, txtViewDay, txtViewHour, txtViewMinute, txtViewSecond;
     TextView txtViewDays, txtViewAgeMale, txtViewAgeFemale, txtViewNameMale, txtViewNameFemale, txtViewZodiacMale, txtViewZodiacFemale;
@@ -30,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//        startActivity(intent);
 
         getView();
         setView();
@@ -71,7 +76,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onChipNavigationBarSelected(int id){
+        switch (id){
+            case R.id.setting:
+                intentBottom = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(intentBottom);
+                overridePendingTransition(0,0);
+                break;
 
+        }
     }
 
     String dateLove = "09/01/2021";
