@@ -5,5 +5,5 @@
     <dimen name="appbar_padding">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
-    <dimen name="size_text_view_date">28dp</dimen>
+    <dimen name="size_text_view_date">36dp</dimen>
 </resources>

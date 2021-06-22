@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "993110503770",
+    "project_id": "fallinlove-e6cd7",
+    "storage_bucket": "fallinlove-e6cd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993110503770:android:35e0042bb8e65d5a24c363",
+        "android_client_info": {
+          "package_name": "com.example.fallinlove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993110503770-4bjqa0jgifjkn1dv5qarrvfph2isqhrr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fallinlove",
+            "certificate_hash": "e3c7ecffdae7591178f16862854271b1971cacb0"
+          }
+        },
+        {
+          "client_id": "993110503770-pi29cd2oh8tiqv1mg8qmj7i8m6tsg11f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAI98IvJRIDdhUb7g3B2GeUmw1VIokzcqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993110503770-pi29cd2oh8tiqv1mg8qmj7i8m6tsg11f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

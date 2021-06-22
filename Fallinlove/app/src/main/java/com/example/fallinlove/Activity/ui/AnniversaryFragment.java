@@ -1,13 +1,21 @@
 package com.example.fallinlove.Activity.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.fallinlove.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +23,8 @@ import com.example.fallinlove.R;
  * create an instance of this fragment.
  */
 public class AnniversaryFragment extends Fragment {
+
+    private static View mView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,6 +57,10 @@ public class AnniversaryFragment extends Fragment {
         return fragment;
     }
 
+    ListView lvAnniversary;
+    ArrayAdapter<String> adapter;
+    String TAG="FIREBASE";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +74,44 @@ public class AnniversaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_anniversary, container, false);
+        mView = inflater.inflate(R.layout.fragment_anniversary, container, false);
+
+        getViewFragment(mView);
+        setView(mView);
+        return mView;
+    }
+
+    void getViewFragment(View view){
+        lvAnniversary = view.findViewById(R.id.lvAnniversary);
+    }
+
+    void setView(View view){
+        adapter=new ArrayAdapter<String>(view.getContext(),android.R.layout.simple_list_item_1);
+        lvAnniversary.setAdapter(adapter);
+
+        //lấy đối tượng FirebaseDatabase
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        //Kết nối tới node có tên là contacts (node này do ta định nghĩa trong CSDL Firebase)
+        DatabaseReference myRef = database.getReference("contacts");
+        //truy suất và lắng nghe sự thay đổi dữ liệu
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.clear();
+        //vòng lặp để lấy dữ liệu khi có sự thay đổi trên Firebase
+                for (DataSnapshot data: dataSnapshot.getChildren())
+                {
+        //lấy key của dữ liệu
+                    String key=data.getKey();
+        //lấy giá trị của key (nội dung)
+                    String value=data.getValue().toString();
+                    adapter.add(key+"\n"+value);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            }
+        });
     }
 }

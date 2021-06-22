@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    app:cnb_unselectedColor="#B3B9D6"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24"
+        app:cnb_backgroundColor="#faf9ff"
+        app:cnb_iconColor="@color/pink_custom"
+        app:cnb_textColor="@color/pink_custom"/>
+
+    <item
+        android:id="@+id/anniversary"
+        android:title="Anniversary"
+        android:icon="@drawable/ic_baseline_date_range_24"
+        app:cnb_backgroundColor="#faf9ff"
+        app:cnb_iconColor="@color/pink_custom"
+        app:cnb_textColor="@color/pink_custom"/>
+
+    <item
+        android:id="@+id/restaurant"
+        android:title="Restaurant"
+        android:icon="@drawable/ic_baseline_restaurant_menu_24"
+        app:cnb_backgroundColor="#faf9ff"
+        app:cnb_iconColor="@color/pink_custom"
+        app:cnb_textColor="@color/pink_custom"/>
+
+    <item
+        android:id="@+id/setting"
+        android:title="Setting"
+        android:icon="@drawable/ic_baseline_settings_24"
+        app:cnb_backgroundColor="#faf9ff"
+        app:cnb_iconColor="@color/pink_custom"
+        app:cnb_textColor="@color/pink_custom"/>
+
+</menu>
