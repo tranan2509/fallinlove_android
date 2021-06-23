@@ -105,7 +105,6 @@ public class DailyFragment extends Fragment {
             responsibilityRecyclerViewAdapter = new ResponsibilityRecyclerViewAdapter(responsibilities);
             recyclerViewResponsibility.setAdapter(responsibilityRecyclerViewAdapter);
             recyclerViewResponsibility.setLayoutManager(new LinearLayoutManager(mView.getContext()));
-            recyclerViewResponsibility.setHasFixedSize(true);
             recyclerViewResponsibility.setItemAnimator(new SlideInUpAnimator());
         }
 

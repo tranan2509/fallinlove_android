@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_bottom_sheet"
+    android:id="@+id/btnSheetContainer">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Ngày kỉ niệm"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="serif"
+        android:paddingTop="16dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/red_custom"/>
+
+    <EditText
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:background="@drawable/bg_input_text_full_border"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:inputType="textMultiLine"
+        android:maxLines="6"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:hint="Tiêu đề"
+        android:scrollbars="vertical"
+        android:longClickable="false"
+        android:fontFamily="serif"
+        android:textSize="20sp"
+        android:letterSpacing="0.06"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/txtTitle"
+        app:layout_constraintTop_toTopOf="@id/txtTitle"
+        app:layout_constraintBottom_toTopOf="@id/txtTitle"
+        android:background="@color/white"
+        android:layout_marginLeft="12dp"
+        android:text="Tiêu đề"
+        android:fontFamily="serif"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textSize="12sp"
+        android:textColor="#555555"
+        android:letterSpacing="0.03"/>
+
+
+    <EditText
+        android:id="@+id/txtDate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/bg_input_text_full_border"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:inputType="datetime"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:hint="hh:mm dd/mm/yyyy"
+        android:fontFamily="serif"
+        android:textSize="20sp"
+        android:letterSpacing="0.06"/>
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/txtDate"
+        app:layout_constraintTop_toTopOf="@id/txtDate"
+        app:layout_constraintBottom_toTopOf="@id/txtDate"
+        android:background="@color/white"
+        android:layout_marginLeft="12dp"
+        android:text="Thời gian"
+        android:fontFamily="serif"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textSize="12sp"
+        android:textColor="#555555"
+        android:letterSpacing="0.03"/>
+
+    <EditText
+        android:id="@+id/txtDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/txtDate"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/bg_input_text_full_border"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:inputType="textMultiLine"
+        android:maxLines="6"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:hint="Mô tả"
+        android:scrollbars="vertical"
+        android:longClickable="false"
+        android:fontFamily="serif"
+        android:textSize="20sp"
+        android:letterSpacing="0.06"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/txtDescription"
+        app:layout_constraintTop_toTopOf="@id/txtDescription"
+        app:layout_constraintBottom_toTopOf="@id/txtDescription"
+        android:background="@color/white"
+        android:layout_marginLeft="12dp"
+        android:text="Mô tả"
+        android:fontFamily="serif"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:textSize="12sp"
+        android:textColor="#555555"
+        android:letterSpacing="0.03"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewAnniversary"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:layout_constraintTop_toBottomOf="@id/txtDescription"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        app:cardCornerRadius="8dp">
+
+        <ImageView
+            android:id="@+id/imgAnniversary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background_logo_purple"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:layout_constraintTop_toTopOf="@id/cardViewAnniversary"
+        app:layout_constraintRight_toRightOf="@id/cardViewAnniversary"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        app:cardCornerRadius="4dp">
+
+        <ImageButton
+            android:id="@+id/btnAddAnniversary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_image_24"
+            android:background="@color/white"
+            android:padding="2dp"/>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="4dp"
     android:paddingBottom="4dp"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setView(){
         chipNavigationBar.setItemSelected(R.id.home, true);
-        chipNavigationBar.showBadge(R.id.anniversary, 2);
-        chipNavigationBar.showBadge(R.id.restaurant);
+//        chipNavigationBar.showBadge(R.id.anniversary, 2);
+//        chipNavigationBar.showBadge(R.id.restaurant);
         txtViewDays.setText(String.valueOf(datesLove()));
 
         responsibilityAdapter = new ResponsibilityAdapter(getSupportFragmentManager(), tabResponsibility.getTabCount());
@@ -98,6 +98,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onChipNavigationBarSelected(int id){
         switch (id){
+            case R.id.home:
+                break;
+            case R.id.responsibility:
+                intentBottom = new Intent(getApplicationContext(), ResponsibilityActivity.class);
+                startActivity(intentBottom);
+                overridePendingTransition(0,0);
+                break;
+            case R.id.anniversary:
+                intentBottom = new Intent(getApplicationContext(), AnniversaryActivity.class);
+                startActivity(intentBottom);
+                overridePendingTransition(0,0);
+                break;
+            case R.id.restaurant:
+                intentBottom = new Intent(getApplicationContext(), RestaurantActivity.class);
+                startActivity(intentBottom);
+                overridePendingTransition(0,0);
+                break;
             case R.id.setting:
                 intentBottom = new Intent(getApplicationContext(), SettingActivity.class);
                 startActivity(intentBottom);
