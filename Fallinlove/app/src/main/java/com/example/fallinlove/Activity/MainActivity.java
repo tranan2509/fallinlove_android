@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.fallinlove.Activity.ui.ResponsibilityAdapter;
 import com.example.fallinlove.R;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.text.DateFormat;
@@ -27,14 +32,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView txtViewDays, txtViewAgeMale, txtViewAgeFemale, txtViewNameMale, txtViewNameFemale, txtViewZodiacMale, txtViewZodiacFemale;
     ImageView imgViewAvatarMale, imgViewAvatarFemale, imgViewZodiacMale, imgViewZodiacFemale;
 
+    TabLayout tabResponsibility;
+    TabItem tabItemDaily, tabItemResponsibility, tabItemAdd;
+    ViewPager viewPageResponsibility;
+
+    ResponsibilityAdapter responsibilityAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-//        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-//        startActivity(intent);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_main);
 
         getView();
         setView();
@@ -47,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getView(){
         chipNavigationBar = findViewById(R.id.chipNavigationBar);
-//        txtViewDays = findViewById(R.id.txtViewDays);
+        txtViewDays = findViewById(R.id.txtViewDays);
         txtViewYear = findViewById(R.id.txtViewYear);
         txtViewMonth = findViewById(R.id.txtViewMonth);
         txtViewWeek = findViewById(R.id.txtViewWeek);
@@ -57,12 +66,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtViewSecond = findViewById(R.id.txtViewSecond);
         txtViewAgeMale = findViewById(R.id.txtViewAgeMale);
         txtViewAgeFemale = findViewById(R.id.txtViewAgeFemale);
+
+        tabResponsibility = findViewById(R.id.tabResponsibility);
+        viewPageResponsibility = findViewById(R.id.viewPageResponsibility);
+        tabItemDaily = findViewById(R.id.tabItemDaily);
+        tabItemResponsibility = findViewById(R.id.tabItemResponsibility);
+        tabItemAdd = findViewById(R.id.tabItemAdd);
     }
 
     public void setView(){
         chipNavigationBar.setItemSelected(R.id.home, true);
-//        chipNavigationBar.showBadge(R.id.home, 170);
-//        txtViewDays.setText(String.valueOf(datesLove()));
+        chipNavigationBar.showBadge(R.id.anniversary, 2);
+        chipNavigationBar.showBadge(R.id.restaurant);
+        txtViewDays.setText(String.valueOf(datesLove()));
+
+        responsibilityAdapter = new ResponsibilityAdapter(getSupportFragmentManager(), tabResponsibility.getTabCount());
+        viewPageResponsibility.setAdapter(responsibilityAdapter);
+        viewPageResponsibility.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabResponsibility));
     }
 
     public void onClick(View view){
@@ -73,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         chipNavigationBar.setOnItemSelectedListener(id -> {
             onChipNavigationBarSelected(id);
         });
+        tabResponsibility.addOnTabSelectedListener(onTabSelectedListener());
     }
 
     public void onChipNavigationBarSelected(int id){
@@ -84,6 +105,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
+    }
+
+    public TabLayout.OnTabSelectedListener onTabSelectedListener(){
+        return new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPageResponsibility.setCurrentItem(tab.getPosition());
+                if (tab.getPosition() == 0 || tab.getPosition() == 1 || tab.getPosition() == 2){
+                    responsibilityAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        };
     }
 
     String dateLove = "09/01/2021";
