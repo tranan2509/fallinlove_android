@@ -18,7 +18,7 @@
         android:paddingRight="12dp">
 
         <TextView
-            android:id="@+id/txtViewResponsibility"
+            android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +33,7 @@
             android:id="@+id/txtViewDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/txtViewResponsibility"
+            app:layout_constraintTop_toBottomOf="@id/txtName"
             android:layout_marginRight="32dp"
             android:fontFamily="serif"
             android:text="12:21 23/06/2021"/>

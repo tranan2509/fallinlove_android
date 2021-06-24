@@ -2,13 +2,21 @@ package com.example.fallinlove.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.fallinlove.Activity.ui.DailyFragment;
 import com.example.fallinlove.Activity.ui.ResponsibilityAdapter;
+import com.example.fallinlove.Activity.ui.ResponsibilityFragment;
+import com.example.fallinlove.Adapter.StringSpinnerAdapter;
 import com.example.fallinlove.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -24,6 +32,12 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
     ViewPager viewPageResponsibility;
 
     ResponsibilityAdapter responsibilityAdapter;
+
+    BottomSheetDialog bottomSheetDialog;
+    View bottomSheetView;
+    FloatingActionButton btnAdd;
+    String[] typeResponsibility, level;
+    Spinner spnTypeResponsibilities, spnLevels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +57,8 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
         tabItemDaily = findViewById(R.id.tabItemDaily);
         tabItemResponsibility = findViewById(R.id.tabItemResponsibility);
         tabItemAdd = findViewById(R.id.tabItemAdd);
+
+        btnAdd = findViewById(R.id.btnAdd);
     }
 
     public void setView(){
@@ -54,6 +70,9 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
         responsibilityAdapter = new ResponsibilityAdapter(getSupportFragmentManager(), tabResponsibility.getTabCount());
         viewPageResponsibility.setAdapter(responsibilityAdapter);
         viewPageResponsibility.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabResponsibility));
+
+        //Hide tab
+        tabResponsibility.removeTabAt(2);
     }
 
     public void setOnClick(){
@@ -61,10 +80,15 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
             onChipNavigationBarSelected(id);
         });
         tabResponsibility.addOnTabSelectedListener(onTabSelectedListener());
+        btnAdd.setOnClickListener(this);
     }
 
     public void onClick(View view){
-
+        switch (view.getId()){
+            case R.id.btnAdd:
+                showDialog(view, "add");
+                break;
+        }
     }
 
     public void onChipNavigationBarSelected(int id){
@@ -116,4 +140,51 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
             }
         };
     }
+
+    public void showDialog(View view, String type){
+        typeResponsibility = new String[]{"Hàng ngày", "Trách nhiệm"};
+        level = new String[]{"Bình thường", "Quan trọng", "Rất quan trọng"};
+
+        bottomSheetDialog = new BottomSheetDialog(view.getContext(), R.style.BottomSheetDialogTheme);
+        bottomSheetView = LayoutInflater.from(view.getContext())
+                .inflate(R.layout.bottom_sheet_responsibility, (LinearLayout)view.findViewById(R.id.btnSheetContainer));
+        bottomSheetView.findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DailyFragment.loadRecycleView();
+                ResponsibilityFragment.loadRecycleView();
+                bottomSheetDialog.hide();
+            }
+        });
+        spnTypeResponsibilities = bottomSheetView.findViewById(R.id.spnTypeResponsibility);
+        spnLevels = bottomSheetView.findViewById(R.id.spnLevel);
+        setSpinner(bottomSheetView.getRootView(), typeResponsibility, level);
+
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+        switch (type){
+            case "add":
+                bottomSheetDialog.findViewById(R.id.btnSave).setVisibility(View.VISIBLE);
+                bottomSheetDialog.findViewById(R.id.btnEdit).setVisibility(View.GONE);
+                bottomSheetDialog.findViewById(R.id.btnDelete).setVisibility(View.GONE);
+                break;
+            default:
+                bottomSheetDialog.findViewById(R.id.btnSave).setVisibility(View.GONE);
+                bottomSheetDialog.findViewById(R.id.btnEdit).setVisibility(View.VISIBLE);
+                bottomSheetDialog.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+
+    public void setSpinner(View view, String[] typeResponsibilities, String[] levels){
+        StringSpinnerAdapter stringSpinnerAdapterType = new StringSpinnerAdapter(view.getContext(), typeResponsibilities);
+        spnTypeResponsibilities.setAdapter(stringSpinnerAdapterType);
+        spnTypeResponsibilities.setSelection(0);
+
+        StringSpinnerAdapter stringSpinnerAdapterLevel = new StringSpinnerAdapter(view.getContext(), levels);
+        spnLevels.setAdapter(stringSpinnerAdapterLevel);
+        spnLevels.setSelection(0);
+    }
+
 }

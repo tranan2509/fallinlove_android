@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_bottom_sheet">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Lời nhắn"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="serif"
+                android:paddingTop="24dp"
+                android:paddingBottom="12dp"
+                android:textColor="@color/red_custom"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/txtMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/bg_input_text_full_border"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:inputType="textMultiLine"
+                    android:gravity="top|left"
+                    android:lines="8"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:hint="Lời nhắn tới người yêu thương"
+                    android:scrollbars="vertical"
+                    android:longClickable="false"
+                    android:fontFamily="serif"
+                    android:textSize="20sp"
+                    android:letterSpacing="0.06"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="@id/txtMessage"
+                    app:layout_constraintTop_toTopOf="@id/txtMessage"
+                    app:layout_constraintBottom_toTopOf="@id/txtMessage"
+                    android:background="@color/white"
+                    android:layout_marginLeft="12dp"
+                    android:text="Lời nhắn"
+                    android:fontFamily="serif"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:textSize="12sp"
+                    android:textColor="#555555"
+                    android:letterSpacing="0.03"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/viewHeader"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="#eeeeee"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="48dp"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_save_24"
+                    android:background="@drawable/bg_btn_white"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:drawablePadding="8dp"
+                    android:paddingRight="24dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="Lưu"
+                    android:fontFamily="serif"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

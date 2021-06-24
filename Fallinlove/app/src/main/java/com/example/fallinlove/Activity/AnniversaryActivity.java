@@ -2,9 +2,7 @@ package com.example.fallinlove.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,7 +22,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 public class AnniversaryActivity extends AppCompatActivity implements View.OnClickListener{
 
     ChipNavigationBar chipNavigationBar;
-    Intent intentBottom;
+    Intent intentBottom, intentNext;
     RecyclerView recyclerViewAnniversary;
 
     AnniversaryRecyclerViewAdapter anniversaryRecyclerViewAdapter;
@@ -70,11 +68,9 @@ public class AnniversaryActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btnAdd:
-                bottomSheetDialog = new BottomSheetDialog(AnniversaryActivity.this, R.style.BottomSheetDialogTheme);
-                bottomSheetView = LayoutInflater.from(getApplicationContext())
-                        .inflate(R.layout.bottom_sheet_anniversary, (LinearLayout)findViewById(R.id.btnSheetContainer));
-                bottomSheetDialog.setContentView(bottomSheetView);
-                bottomSheetDialog.show();
+                intentNext = new Intent(getApplicationContext(), FunctionAnniversaryActivity.class);
+                intentNext.putExtra("function", "add");
+                startActivity(intentNext);
                 break;
         }
     }

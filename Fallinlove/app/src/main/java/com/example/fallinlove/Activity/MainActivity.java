@@ -3,16 +3,20 @@ package com.example.fallinlove.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.fallinlove.Activity.ui.ResponsibilityAdapter;
 import com.example.fallinlove.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
@@ -25,18 +29,31 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    //Chip navigation bar
     ChipNavigationBar chipNavigationBar;
-    Intent intentBottom;
+    Intent intentBottom, intentNext;
+
+    //Count down time for days
     CountDownTimer timer;
+
+    //Attribute in main
     TextView txtViewYear, txtViewMonth, txtViewWeek, txtViewDay, txtViewHour, txtViewMinute, txtViewSecond;
     TextView txtViewDays, txtViewAgeMale, txtViewAgeFemale, txtViewNameMale, txtViewNameFemale, txtViewZodiacMale, txtViewZodiacFemale;
+    TextView txtViewMessage;
     ImageView imgViewAvatarMale, imgViewAvatarFemale, imgViewZodiacMale, imgViewZodiacFemale;
+    ConstraintLayout layoutMale, layoutFemale;
 
+    //Tab responsibility
     TabLayout tabResponsibility;
     TabItem tabItemDaily, tabItemResponsibility, tabItemAdd;
     ViewPager viewPageResponsibility;
 
+    //Responsibility list
     ResponsibilityAdapter responsibilityAdapter;
+
+    //Dialog message
+    BottomSheetDialog bottomSheetDialog;
+    View bottomSheetView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +84,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtViewAgeMale = findViewById(R.id.txtViewAgeMale);
         txtViewAgeFemale = findViewById(R.id.txtViewAgeFemale);
 
+        layoutMale = findViewById(R.id.layoutMale);
+        layoutFemale = findViewById(R.id.layoutFemale);
+
         tabResponsibility = findViewById(R.id.tabResponsibility);
         viewPageResponsibility = findViewById(R.id.viewPageResponsibility);
         tabItemDaily = findViewById(R.id.tabItemDaily);
         tabItemResponsibility = findViewById(R.id.tabItemResponsibility);
-        tabItemAdd = findViewById(R.id.tabItemAdd);
+//        tabItemAdd = findViewById(R.id.tabItemAdd);
+
+        txtViewMessage = findViewById(R.id.txtViewMessage);
     }
 
     public void setView(){
@@ -80,13 +102,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        chipNavigationBar.showBadge(R.id.restaurant);
         txtViewDays.setText(String.valueOf(datesLove()));
 
+        //Load information to tab responsibility
         responsibilityAdapter = new ResponsibilityAdapter(getSupportFragmentManager(), tabResponsibility.getTabCount());
         viewPageResponsibility.setAdapter(responsibilityAdapter);
         viewPageResponsibility.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabResponsibility));
-    }
-
-    public void onClick(View view){
-
     }
 
     public void setOnclick(){
@@ -94,7 +113,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             onChipNavigationBarSelected(id);
         });
         tabResponsibility.addOnTabSelectedListener(onTabSelectedListener());
+        txtViewMessage.setOnClickListener(this);
+        layoutMale.setOnClickListener(this);
+        layoutFemale.setOnClickListener(this);
     }
+
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.txtViewMessage:
+                showDialog(view);
+                break;
+            case R.id.layoutMale:
+                intentNext = new Intent(getApplicationContext(), EditProfileActivity.class);
+                intentNext.putExtra("gender", "male");
+                startActivity(intentNext);
+                break;
+            case R.id.layoutFemale:
+                intentNext = new Intent(getApplicationContext(), EditProfileActivity.class);
+                intentNext.putExtra("gender", "female");
+                startActivity(intentNext);
+                break;
+        }
+    }
+
 
     public void onChipNavigationBarSelected(int id){
         switch (id){
@@ -146,11 +187,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
     }
 
+    public void showDialog(View view){
+
+        bottomSheetDialog = new BottomSheetDialog(view.getContext(), R.style.BottomSheetDialogTheme);
+        bottomSheetView = LayoutInflater.from(view.getContext())
+                .inflate(R.layout.bottom_sheet_message, (LinearLayout)view.findViewById(R.id.btnSheetContainer));
+        bottomSheetView.findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Save message
+                saveMessage();
+                bottomSheetDialog.hide();
+            }
+        });
+
+        bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.show();
+    }
+
+    public void saveMessage(){
+
+    }
+
+
     String dateLove = "09/01/2021";
     String birthdayMale = "25/09/2000";
     String birthdayFemale = "17/07/2001";
     Date dateLoveDate;
-
 
     long getDistance(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

@@ -11,4 +11,5 @@
     <color name="pink_custom">#FFff2f7b</color>
     <color name="purple_custom">#ff6367a9</color>
     <color name="red_custom">#ffff1224</color>
+    <color name="background_primary">#fffaf9fe</color>
 </resources>

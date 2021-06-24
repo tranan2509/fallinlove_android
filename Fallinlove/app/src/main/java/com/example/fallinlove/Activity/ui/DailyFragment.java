@@ -14,6 +14,7 @@ import com.example.fallinlove.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
@@ -91,15 +92,11 @@ public class DailyFragment extends Fragment {
 
     public static void loadRecycleView(){
         responsibilities = new ArrayList<String>();
-        responsibilities.add("1");
-        responsibilities.add("1");
-        responsibilities.add("1");
-        responsibilities.add("1");
-        responsibilities.add("1");
-        responsibilities.add("1");
-        responsibilities.add("1");
-        responsibilities.add("1");
-        responsibilities.add("1");
+        Random random = new Random();
+        int size = random.nextInt(6) + 1;
+        for (int i = 0; i < size; i++) {
+            responsibilities.add("1");
+        }
 
         if (responsibilities != null) {
             responsibilityRecyclerViewAdapter = new ResponsibilityRecyclerViewAdapter(responsibilities);

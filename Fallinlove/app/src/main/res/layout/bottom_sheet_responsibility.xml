@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#faf9fe"
-    tools:context=".Activity.ui.AddResponsibilityFragment">
+    android:id="@+id/btnSheetContainer"
+    android:background="@drawable/bg_bottom_sheet">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,6 +16,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="Nhiệm vụ"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="serif"
+                android:paddingTop="24dp"
+                android:paddingBottom="12dp"
+                android:textColor="@color/red_custom"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -117,14 +130,16 @@
                     android:letterSpacing="0.03"
                     android:fontFamily="serif"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_drop_down"
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icons8_expand_arrow"
                     app:layout_constraintTop_toTopOf="@id/spnTypeResponsibility"
                     app:layout_constraintBottom_toBottomOf="@id/spnTypeResponsibility"
                     app:layout_constraintRight_toRightOf="@id/spnTypeResponsibility"
-                    android:layout_marginRight="8dp"/>
+                    android:layout_marginRight="8dp"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"/>
 
                 <Spinner
                     android:id="@+id/spnLevel"
@@ -143,13 +158,15 @@
                     android:fontFamily="serif"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_drop_down"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icons8_expand_arrow"
                     app:layout_constraintTop_toTopOf="@id/spnLevel"
                     app:layout_constraintBottom_toBottomOf="@id/spnLevel"
                     app:layout_constraintRight_toRightOf="@id/spnLevel"
-                    android:layout_marginRight="8dp"/>
+                    android:layout_marginRight="8dp"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -167,8 +184,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="48dp"
                 android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_edit_24"
+                    android:background="@drawable/bg_btn_white"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:drawablePadding="8dp"
+                    android:paddingRight="24dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="Sửa"
+                    android:layout_marginRight="12dp"
+                    android:fontFamily="serif"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:visibility="visible"/>
+
 
                 <Button
                     android:id="@+id/btnSave"
@@ -186,7 +224,28 @@
                     android:fontFamily="serif"
                     android:textAllCaps="false"
                     android:textStyle="bold"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:visibility="visible"/>
+
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_baseline_delete_24"
+                    android:background="@drawable/bg_btn_white"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:drawablePadding="8dp"
+                    android:paddingRight="24dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="Xóa"
+                    android:layout_marginLeft="12dp"
+                    android:fontFamily="serif"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:visibility="visible"/>
 
             </LinearLayout>
 
@@ -194,4 +253,4 @@
 
     </ScrollView>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

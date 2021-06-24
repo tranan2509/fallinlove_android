@@ -291,6 +291,7 @@
                 android:orientation="horizontal">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutMale"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_purple"
@@ -309,7 +310,7 @@
                         app:cardCornerRadius="16dp">
 
                         <ImageView
-                            android:id="@+id/avatarMale"
+                            android:id="@+id/imgAvatarMale"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/avatar"
@@ -403,12 +404,14 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
+                    android:id="@+id/imgHeart"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:padding="4dp"
                     android:src="@drawable/icons8_heart_48"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutFemale"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_pink"
@@ -427,7 +430,7 @@
                         app:cardCornerRadius="16dp">
 
                         <ImageView
-                            android:id="@+id/avatarFemale"
+                            android:id="@+id/imgAvatarFemale"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/avatar_female"
@@ -592,13 +595,13 @@
                         android:id="@+id/tabItemResponsibility"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Trách nhiệm"/>
+                        android:text="Nhiệm vụ"/>
 
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/tabItemAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Thêm"/>
+<!--                    <com.google.android.material.tabs.TabItem-->
+<!--                        android:id="@+id/tabItemAdd"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Thêm"/>-->
 
                 </com.google.android.material.tabs.TabLayout>
 
@@ -623,10 +626,12 @@
             android:visibility="visible">
 
             <TextView
-                android:id="@+id/txtViewWish"
+                android:id="@+id/txtViewMessage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Deer Loves,\nWe have been together for 5 months 1 week 6 days 20 hours 3 minute 44 seconds\nLove you, your Lover one!"
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
+                android:text="Gửi em,\nChúng ta đã có khoảng thời gian bên nhau thật hạnh phúc, cảm ơn em đã đến bên anh
+                \nYêu em, người anh yêu nhất!"
                 android:textSize="16sp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"

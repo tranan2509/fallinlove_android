@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/txtViewTitle"
+                android:id="@+id/txtViewName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
@@ -36,7 +36,7 @@
                 android:id="@+id/txtViewDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtViewTitle"
+                android:layout_below="@id/txtViewName"
                 android:text="15:08 23/06/2021"
                 android:fontFamily="serif"
                 android:paddingTop="2dp"
@@ -74,7 +74,7 @@
                 android:id="@+id/btnOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/txtViewTitle"
+                android:layout_alignRight="@id/txtViewName"
                 android:src="@drawable/ic_baseline_more_horiz_24"
                 android:background="@color/white"/>
         </RelativeLayout>

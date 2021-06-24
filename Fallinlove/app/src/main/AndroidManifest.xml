@@ -23,7 +23,9 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fallinlove">
-        <activity android:name=".Activity.RestaurantActivity"></activity>
+        <activity android:name=".Activity.EditProfileActivity"></activity>
+        <activity android:name=".Activity.FunctionAnniversaryActivity" />
+        <activity android:name=".Activity.RestaurantActivity" />
         <activity android:name=".Activity.AnniversaryActivity" />
         <activity android:name=".Activity.ResponsibilityActivity" />
         <activity android:name=".Activity.SettingActivity" />
