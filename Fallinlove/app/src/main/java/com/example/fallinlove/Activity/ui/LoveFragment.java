@@ -1,5 +1,7 @@
 package com.example.fallinlove.Activity.ui;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -8,15 +10,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.example.fallinlove.DBUtil.DisplaySettingDB;
+import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.DBUtil.PersonDB;
+import com.example.fallinlove.Model.DisplaySetting;
+import com.example.fallinlove.Model.ImageSetting;
+import com.example.fallinlove.Model.Person;
+import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.DateProvider;
+import com.example.fallinlove.Provider.ImageConvert;
+import com.example.fallinlove.Provider.SharedPreferenceProvider;
+import com.example.fallinlove.Provider.ZodiacProvider;
 import com.example.fallinlove.R;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +43,7 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static View mView;
+    private static Context mContext;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -57,11 +71,20 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
         return fragment;
     }
 
+
+    //Model
+    User user;
+    List<Person> persons;
+    Person male, female;
+    ImageSetting imageSetting;
+    DisplaySetting displaySetting;
+
     CountDownTimer timer;
     TextView txtViewYear, txtViewMonth, txtViewWeek, txtViewDay, txtViewHour, txtViewMinute, txtViewSecond;
     TextView txtViewDays, txtViewAgeMale, txtViewAgeFemale, txtViewNameMale, txtViewNameFemale, txtViewZodiacMale, txtViewZodiacFemale;
     ImageView imgViewAvatarMale, imgViewAvatarFemale, imgViewZodiacMale, imgViewZodiacFemale;
-
+    ImageView imgBgHome, imgHeart;
+    Date dateLoveDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -72,11 +95,14 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_love, container, false);
+        mContext = mView.getContext();
+        getModel(mView);
         getViewFragment(mView);
         setView(mView);
 
@@ -88,7 +114,20 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
         return mView;
     }
 
+    public void getModel(View view){
+//        user.setLovedDate("2021-01-09");
+//        UserDB.getInstance(this).update(user);
+        user = (User) SharedPreferenceProvider.getInstance(view.getContext()).get("user");
+        persons = PersonDB.getInstance(view.getContext()).gets();
+        male = persons.get(0);
+        female = persons.get(1);
+        imageSetting = ImageSettingDB.getInstance(view.getContext()).get(user);
+        displaySetting = DisplaySettingDB.getInstance(view.getContext()).get(user);
+    }
+
     private void getViewFragment(View view){
+
+//      Get date
         txtViewDays = view.findViewById(R.id.txtViewDays);
         txtViewYear = view.findViewById(R.id.txtViewYear);
         txtViewMonth = view.findViewById(R.id.txtViewMonth);
@@ -99,10 +138,40 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
         txtViewSecond = view.findViewById(R.id.txtViewSecond);
         txtViewAgeMale = view.findViewById(R.id.txtViewAgeMale);
         txtViewAgeFemale = view.findViewById(R.id.txtViewAgeFemale);
+        txtViewNameMale = view.findViewById(R.id.txtViewNameMale);
+        txtViewNameFemale = view.findViewById(R.id.txtViewNameFemale);
+        txtViewZodiacMale = view.findViewById(R.id.txtViewZodiacMale);
+        txtViewZodiacFemale = view.findViewById(R.id.txtViewZodiacFemale);
+        imgViewAvatarMale = view.findViewById(R.id.imgAvatarMale);
+        imgViewAvatarFemale = view.findViewById(R.id.imgAvatarFemale);
+        imgViewZodiacMale = view.findViewById(R.id.imgViewZodiacMale);
+        imgViewZodiacFemale = view.findViewById(R.id.imgViewZodiacFemale);
+
+        //Get background
+        imgBgHome = view.findViewById(R.id.imgBgHome);
+        imgHeart = view.findViewById(R.id.imgHeart);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void setView(View view){
         txtViewDays.setText(String.valueOf(datesLove()));
+
+        //Set information male
+        txtViewNameMale.setText(male.getName());
+        imgViewAvatarMale.setImageBitmap(ImageConvert.ArrayByteToBitmap(male.getAvatar()));
+        int zodiacMaleId = ZodiacProvider.getResourceId(male.getDob(), true);
+        imgViewZodiacMale.setImageResource(zodiacMaleId);
+        txtViewZodiacMale.setText(ZodiacProvider.getZodiacName(zodiacMaleId, true));
+        //Set information female
+        txtViewNameFemale.setText(female.getName());
+        imgViewAvatarFemale.setImageBitmap(ImageConvert.ArrayByteToBitmap(female.getAvatar()));
+        int zodiacFemaleId = ZodiacProvider.getResourceId(female.getDob(), false);
+        imgViewZodiacFemale.setImageResource(zodiacFemaleId);
+        txtViewZodiacFemale.setText(ZodiacProvider.getZodiacName(zodiacFemaleId, false));
+
+        //Set image setting
+        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
+        imgHeart.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getHeart()));
     }
 
     void setOnClick(){
@@ -113,18 +182,10 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
 
     }
 
-
-    String dateLove = "09/01/2021";
-    String birthdayMale = "25/09/2000";
-    String birthdayFemale = "17/07/2001";
-    Date dateLoveDate;
-
-
     long getDistance(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Calendar cal = Calendar.getInstance();
         try {
-            dateLoveDate = dateFormat.parse(dateLove);
+            dateLoveDate = DateProvider.dateFormat.parse(user.getLovedDate());
             return cal.getTime().getTime() - dateLoveDate.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -285,11 +346,10 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
 
     int getAge(String date)
     {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Calendar cal = Calendar.getInstance();
         Date dob = new Date();
         try {
-            dob = dateFormat.parse(date);
+            dob = DateProvider.dateFormat.parse(date);
         }catch (ParseException e) {
             e.printStackTrace();
         }
@@ -308,8 +368,8 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
 
     void setAge()
     {
-        txtViewAgeMale.setText(String.valueOf(getAge(birthdayMale)));
-        txtViewAgeFemale.setText(String.valueOf(getAge(birthdayFemale)));
+        txtViewAgeMale.setText(String.valueOf(getAge(persons.get(0).getDob())));
+        txtViewAgeFemale.setText(String.valueOf(getAge(persons.get(1).getDob())));
     }
 
 }

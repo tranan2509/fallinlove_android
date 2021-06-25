@@ -7,6 +7,14 @@
     tools:context=".Activity.ResponsibilityActivity"
     android:background="#faf9fe">
 
+    <ImageView
+        android:id="@+id/imgBgHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_default"
+        android:scaleType="centerCrop"
+        android:visibility="visible"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

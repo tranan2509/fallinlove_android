@@ -1,33 +1,57 @@
 package com.example.fallinlove.Activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.fallinlove.Activity.ui.ResponsibilityAdapter;
+import com.example.fallinlove.DBUtil.DisplaySettingDB;
+import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.DBUtil.PersonDB;
+import com.example.fallinlove.DBUtil.UserDB;
+import com.example.fallinlove.Model.DisplaySetting;
+import com.example.fallinlove.Model.ImageSetting;
+import com.example.fallinlove.Model.Person;
+import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.DataInitialization;
+import com.example.fallinlove.Provider.DateProvider;
+import com.example.fallinlove.Provider.ImageConvert;
+import com.example.fallinlove.Provider.SharedPreferenceProvider;
+import com.example.fallinlove.Provider.ZodiacProvider;
 import com.example.fallinlove.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    //Model
+    User user;
+    List<Person> persons;
+    Person male, female;
+    ImageSetting imageSetting;
+    DisplaySetting displaySetting;
 
     //Chip navigation bar
     ChipNavigationBar chipNavigationBar;
@@ -42,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView txtViewMessage;
     ImageView imgViewAvatarMale, imgViewAvatarFemale, imgViewZodiacMale, imgViewZodiacFemale;
     ConstraintLayout layoutMale, layoutFemale;
+    ImageView imgBgHome, imgBgDays, imgHeart;
 
     //Tab responsibility
     TabLayout tabResponsibility;
@@ -55,6 +80,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     BottomSheetDialog bottomSheetDialog;
     View bottomSheetView;
 
+    //Count date
+    Date dateLoveDate;
+
+    //Layout
+    LinearLayout layoutResponsibility, layoutMessage;
+
+    //Exit app
+    boolean doubleBackToExitPressedOnce = false;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +97,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        initApp();
+        getModel();
         getView();
         setView();
         setOnclick();
@@ -69,6 +106,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setAge();
 
         startTime();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else if (!doubleBackToExitPressedOnce) {
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this,"Nhấn trở về thêm một lần nữa để đóng ứng dụng", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        } else {
+            finishAffinity();
+            return;
+        }
+    }
+
+    public void initApp(){
+        List<User> users = UserDB.getInstance(this).gets();
+        if (users == null || users.isEmpty()){
+            Calendar cal = Calendar.getInstance();
+            String now = DateProvider.datetimeFormat.format(cal.getTime());
+            user = new User("Gửi người yêu,\nGửi lời yêu thương đến người mình yêu để có thêm những cảm xúc bên nhau và gẫn gũi với nhau hơn giữa hai người <3\nIn love, kết nối yêu thương", now, now, true);
+            user.setId(1);
+            DataInitialization.getInstance(this).insertAllData(user);
+        }else{
+            user = users.get(0);
+        }
+        SharedPreferenceProvider.getInstance(this).set("user", user);
+    }
+
+    public void getModel(){
+//        user.setLovedDate("2021-01-09");
+//        UserDB.getInstance(this).update(user);
+        persons = PersonDB.getInstance(this).gets();
+        male = persons.get(0);
+        female = persons.get(1);
+        imageSetting = ImageSettingDB.getInstance(this).get(user);
+        displaySetting = DisplaySettingDB.getInstance(this).get(user);
     }
 
     public void getView(){
@@ -83,6 +163,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtViewSecond = findViewById(R.id.txtViewSecond);
         txtViewAgeMale = findViewById(R.id.txtViewAgeMale);
         txtViewAgeFemale = findViewById(R.id.txtViewAgeFemale);
+        txtViewNameMale = findViewById(R.id.txtViewNameMale);
+        txtViewNameFemale = findViewById(R.id.txtViewNameFemale);
+        txtViewZodiacMale = findViewById(R.id.txtViewZodiacMale);
+        txtViewZodiacFemale = findViewById(R.id.txtViewZodiacFemale);
+        imgViewAvatarMale = findViewById(R.id.imgAvatarMale);
+        imgViewAvatarFemale = findViewById(R.id.imgAvatarFemale);
+        imgViewZodiacMale = findViewById(R.id.imgViewZodiacMale);
+        imgViewZodiacFemale = findViewById(R.id.imgViewZodiacFemale);
+
+        txtViewMessage = findViewById(R.id.txtViewMessage);
+
+        //Get layout message
+        layoutResponsibility = findViewById(R.id.layoutResponsibility);
+        layoutMessage = findViewById(R.id.layoutMessage);
+
+        //Get background
+        imgBgHome = findViewById(R.id.imgBgHome);
+        imgBgDays = findViewById(R.id.imgBgDays);
+        imgHeart = findViewById(R.id.imgHeart);
 
         layoutMale = findViewById(R.id.layoutMale);
         layoutFemale = findViewById(R.id.layoutFemale);
@@ -93,19 +192,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabItemResponsibility = findViewById(R.id.tabItemResponsibility);
 //        tabItemAdd = findViewById(R.id.tabItemAdd);
 
-        txtViewMessage = findViewById(R.id.txtViewMessage);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void setView(){
         chipNavigationBar.setItemSelected(R.id.home, true);
-//        chipNavigationBar.showBadge(R.id.anniversary, 2);
-//        chipNavigationBar.showBadge(R.id.restaurant);
         txtViewDays.setText(String.valueOf(datesLove()));
 
         //Load information to tab responsibility
         responsibilityAdapter = new ResponsibilityAdapter(getSupportFragmentManager(), tabResponsibility.getTabCount());
         viewPageResponsibility.setAdapter(responsibilityAdapter);
         viewPageResponsibility.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabResponsibility));
+
+        //Set information male
+        txtViewNameMale.setText(male.getName());
+        imgViewAvatarMale.setImageBitmap(ImageConvert.ArrayByteToBitmap(male.getAvatar()));
+        int zodiacMaleId = ZodiacProvider.getResourceId(male.getDob(), true);
+        imgViewZodiacMale.setImageResource(zodiacMaleId);
+        txtViewZodiacMale.setText(ZodiacProvider.getZodiacName(zodiacMaleId, true));
+        //Set information female
+        txtViewNameFemale.setText(female.getName());
+        imgViewAvatarFemale.setImageBitmap(ImageConvert.ArrayByteToBitmap(female.getAvatar()));
+        int zodiacFemaleId = ZodiacProvider.getResourceId(female.getDob(), false);
+        imgViewZodiacFemale.setImageResource(zodiacFemaleId);
+        txtViewZodiacFemale.setText(ZodiacProvider.getZodiacName(zodiacFemaleId, false));
+
+        //Set message
+        txtViewMessage.setText(user.getMessage());
+
+        //Set image setting
+        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
+        imgBgDays.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getDays()));
+        imgHeart.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getHeart()));
+
+        //Setting message
+        if (displaySetting.getHome() == 1){
+            layoutMessage.setVisibility(View.VISIBLE);
+            layoutResponsibility.setVisibility(View.GONE);
+        }else if (displaySetting.getHome() == 2){
+            layoutMessage.setVisibility(View.GONE);
+            layoutResponsibility.setVisibility(View.VISIBLE);
+        }else{
+            layoutMessage.setVisibility(View.GONE);
+            layoutResponsibility.setVisibility(View.GONE);
+        }
     }
 
     public void setOnclick(){
@@ -125,12 +255,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.layoutMale:
                 intentNext = new Intent(getApplicationContext(), EditProfileActivity.class);
-                intentNext.putExtra("gender", "male");
+                intentNext.putExtra("personId", male.getId());
                 startActivity(intentNext);
                 break;
             case R.id.layoutFemale:
                 intentNext = new Intent(getApplicationContext(), EditProfileActivity.class);
-                intentNext.putExtra("gender", "female");
+                intentNext.putExtra("personId", female.getId());
                 startActivity(intentNext);
                 break;
         }
@@ -192,11 +322,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bottomSheetDialog = new BottomSheetDialog(view.getContext(), R.style.BottomSheetDialogTheme);
         bottomSheetView = LayoutInflater.from(view.getContext())
                 .inflate(R.layout.bottom_sheet_message, (LinearLayout)view.findViewById(R.id.btnSheetContainer));
+        EditText txtMessage = bottomSheetView.findViewById(R.id.txtMessage);
+        txtMessage.setText(user.getMessage());
         bottomSheetView.findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Save message
-                saveMessage();
+                saveMessage(txtMessage.getText().toString());
                 bottomSheetDialog.hide();
             }
         });
@@ -205,21 +337,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bottomSheetDialog.show();
     }
 
-    public void saveMessage(){
-
+    public void saveMessage(String message){
+        user.setMessage(message);
+        UserDB.getInstance(this).update(user);
+        SharedPreferenceProvider.getInstance(this).set("user", user);
+        txtViewMessage.setText(message);
     }
 
-
-    String dateLove = "09/01/2021";
-    String birthdayMale = "25/09/2000";
-    String birthdayFemale = "17/07/2001";
-    Date dateLoveDate;
-
     long getDistance(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Calendar cal = Calendar.getInstance();
         try {
-            dateLoveDate = dateFormat.parse(dateLove);
+            dateLoveDate = DateProvider.dateFormat.parse(user.getLovedDate());
             return cal.getTime().getTime() - dateLoveDate.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -380,11 +508,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     int getAge(String date)
     {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Calendar cal = Calendar.getInstance();
         Date dob = new Date();
         try {
-            dob = dateFormat.parse(date);
+            dob = DateProvider.dateFormat.parse(date);
         }catch (ParseException e) {
             e.printStackTrace();
         }
@@ -403,8 +530,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     void setAge()
     {
-        txtViewAgeMale.setText(String.valueOf(getAge(birthdayMale)));
-        txtViewAgeFemale.setText(String.valueOf(getAge(birthdayFemale)));
+        txtViewAgeMale.setText(String.valueOf(getAge(persons.get(0).getDob())));
+        txtViewAgeFemale.setText(String.valueOf(getAge(persons.get(1).getDob())));
     }
 
 }

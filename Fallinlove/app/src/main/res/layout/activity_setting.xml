@@ -7,6 +7,15 @@
     tools:context=".Activity.SettingActivity"
     android:background="#faf9fe">
 
+    <ImageView
+        android:id="@+id/imgBgHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_default"
+        android:scaleType="centerCrop"
+        android:visibility="visible"/>
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,13 +23,116 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btnDisplay"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:text="Display"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cài đặt thông tin"
+                    android:textColor="@color/pink_custom"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="8dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.03"
+                    android:fontFamily="serif"/>
+
+                <Button
+                    android:id="@+id/btnSelectDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/bg_btn_setting"
+                    android:text="Cài đặt ngày yêu"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:drawableLeft="@drawable/ic_baseline_love_date_pink"
+                    android:drawableRight="@drawable/ic_baseline_navigate_next_pink"
+                    android:drawablePadding="8dp"
+                    android:textAllCaps="false"/>
+
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/bg_btn_setting"
+                    android:text="Thông tin cặp đôi"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:drawableLeft="@drawable/ic_baseline_person_pink"
+                    android:drawableRight="@drawable/ic_baseline_navigate_next_pink"
+                    android:drawablePadding="8dp"
+                    android:textAllCaps="false"/>
+
+          </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cài đặt giao diện"
+                    android:textColor="@color/purple_custom"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.03"
+                    android:fontFamily="serif"/>
+
+                <Button
+                    android:id="@+id/btnImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/bg_btn_setting"
+                    android:text="Ảnh nền"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:drawableLeft="@drawable/ic_baseline_image_purple"
+                    android:drawableRight="@drawable/ic_baseline_navigate_next_purple"
+                    android:drawablePadding="8dp"
+                    android:textAllCaps="false"/>
+
+                <Button
+                    android:id="@+id/btnDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/bg_btn_setting"
+                    android:text="Hiển thị"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:drawableLeft="@drawable/ic_baseline_display_purple"
+                    android:drawableRight="@drawable/ic_baseline_navigate_next_purple"
+                    android:drawablePadding="8dp"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

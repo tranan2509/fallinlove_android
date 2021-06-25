@@ -63,7 +63,7 @@ public class AddResponsibilityFragment extends Fragment {
     }
 
     Button btnSave;
-    EditText txtResponsibility, txtDate;
+    EditText txtName, txtDate;
     Spinner spnTypeResponsibilities, spnLevels;
     String[] typeResponsibility, level;
 
@@ -81,7 +81,7 @@ public class AddResponsibilityFragment extends Fragment {
 
     public void getViewFragment(View view){
         btnSave = view.findViewById(R.id.btnSave);
-        txtResponsibility = view.findViewById(R.id.txtResponsibility);
+        txtName = view.findViewById(R.id.txtName);
         txtDate = view.findViewById(R.id.txtDate);
         spnTypeResponsibilities = view.findViewById(R.id.spnTypeResponsibility);
         spnLevels = view.findViewById(R.id.spnLevel);

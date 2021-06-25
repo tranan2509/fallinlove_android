@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     private int id;
+    private String message;
     private String lovedDate;
     private String createdDate;
     private boolean state;
@@ -20,8 +21,16 @@ public class User implements Serializable {
         this.state = state;
     }
 
+    public User(String message, String lovedDate, String createdDate, boolean state) {
+        this.message = message;
+        this.lovedDate = lovedDate;
+        this.createdDate = createdDate;
+        this.state = state;
+    }
+
     public User(Cursor cursor){
         this.id = cursor.getInt(cursor.getColumnIndex("id"));
+        this.message = cursor.getString(cursor.getColumnIndex("message"));
         this.lovedDate = cursor.getString(cursor.getColumnIndex("lovedDate"));
         this.createdDate = cursor.getString(cursor.getColumnIndex("createdDate"));
         this.state = cursor.getString(cursor.getColumnIndex("state")).equals("1");
@@ -33,6 +42,14 @@ public class User implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getLovedDate() {

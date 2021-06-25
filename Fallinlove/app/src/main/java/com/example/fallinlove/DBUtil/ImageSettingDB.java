@@ -90,9 +90,9 @@ public class ImageSettingDB extends DatabaseHandler{
 
     public List<ImageSetting> gets(User user){
         List<ImageSetting> imageSettings = new ArrayList<ImageSetting>();
-        String query = "SELECT * FROM " + TABLE_IMAGE_SETTING + " WHERE " + KEY_USER_ID + "=" + user.getId();
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_IMAGE_SETTING, new String[]{KEY_ID, KEY_USER_ID, KEY_BACKGROUND, KEY_HEART, KEY_DAYS, KEY_STATE},
+                KEY_USER_ID + "=?", new String[]{String.valueOf(user.getId())}, null, null, null, null);
         if (cursor.moveToFirst()){
             do {
                 ImageSetting imageSetting = new ImageSetting(cursor);

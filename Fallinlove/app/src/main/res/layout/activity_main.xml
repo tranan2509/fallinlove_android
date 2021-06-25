@@ -11,9 +11,9 @@
         android:id="@+id/imgBgHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bg_in_love"
+        android:src="@drawable/background_default"
         android:scaleType="centerCrop"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -566,6 +566,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutResponsibility"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -615,6 +616,7 @@
             </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layoutMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

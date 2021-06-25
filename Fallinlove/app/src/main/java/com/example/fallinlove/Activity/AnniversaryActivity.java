@@ -43,6 +43,11 @@ public class AnniversaryActivity extends AppCompatActivity implements View.OnCli
         setOnClick();
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     public void getView(){
         chipNavigationBar = findViewById(R.id.chipNavigationBar);
         recyclerViewAnniversary = findViewById(R.id.recyclerViewAnniversary);

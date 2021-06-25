@@ -16,8 +16,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(final SQLiteDatabase db) {
         String CREATE_USER_TABLE = "CREATE TABLE USER (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "message TEXT, " +
                 "lovedDate NUMERIC, " +
-                "createDate NUMERIC, " +
+                "createdDate NUMERIC, " +
                 "state NUMERIC)";
         db.execSQL(CREATE_USER_TABLE);
 
@@ -79,6 +80,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 "main INTEGER, " +
                 "state NUMERIC)";
         db.execSQL(CREATE_DISPLAY_SETTING_TABLE);
+
+        String CREATE_BACKGROUND_TABLE = "CREATE TABLE BACKGROUND (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "userId INTEGER, " +
+                "image INTEGER, " +
+                "type INTEGER, " +
+                "state NUMERIC)";
+        db.execSQL(CREATE_BACKGROUND_TABLE);
     }
 
     @Override
@@ -90,6 +99,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS RESTAURANT");
         db.execSQL("DROP TABLE IF EXISTS IMAGE_SETTING");
         db.execSQL("DROP TABLE IF EXISTS DISPLAY_SETTING");
+        db.execSQL("DROP TABLE IF EXISTS BACKGROUND");
         onCreate(db);
     }
 }

@@ -24,6 +24,11 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         setOnClick();
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     public void getView(){
         chipNavigationBar = findViewById(R.id.chipNavigationBar);
     }

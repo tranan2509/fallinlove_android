@@ -34,7 +34,7 @@ public class FunctionAnniversaryActivity extends AppCompatActivity implements Vi
     }
 
     public void getView(){
-        txtTitle = findViewById(R.id.txtTitle);
+        txtTitle = findViewById(R.id.txtName);
         txtDate = findViewById(R.id.txtDate);
         txtDescription = findViewById(R.id.txtDescription);
         imgAnniversary = findViewById(R.id.imgAnniversary);

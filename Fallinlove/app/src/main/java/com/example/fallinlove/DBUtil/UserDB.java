@@ -14,6 +14,7 @@ public class UserDB extends DatabaseHandler{
 
     private static final String TABLE_USER = "USER";
     private static final String KEY_ID = "id";
+    private static final String KEY_MESSAGE = "message";
     private static final String KEY_LOVED_DATE = "lovedDate";
     private static final String KEY_CREATED_DATE = "createdDate";
     private static final String KEY_STATE = "state";
@@ -40,17 +41,17 @@ public class UserDB extends DatabaseHandler{
     public void add(User user){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_MESSAGE, user.getMessage());
         values.put(KEY_LOVED_DATE, user.getLovedDate());
         values.put(KEY_CREATED_DATE, user.getCreatedDate());
         values.put(KEY_STATE, user.isState());
-
         db.insert(TABLE_USER, null, values);
         db.close();
     }
 
     public User get(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID, KEY_LOVED_DATE, KEY_CREATED_DATE, KEY_STATE},
+        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID, KEY_MESSAGE, KEY_LOVED_DATE, KEY_CREATED_DATE, KEY_STATE},
                 KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
@@ -76,6 +77,7 @@ public class UserDB extends DatabaseHandler{
     public int update(User user){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_MESSAGE, user.getMessage());
         values.put(KEY_LOVED_DATE, user.getLovedDate());
         values.put(KEY_CREATED_DATE, user.getCreatedDate());
         values.put(KEY_STATE, user.isState());
