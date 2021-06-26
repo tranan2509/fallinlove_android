@@ -106,7 +106,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 intentNext = new Intent(getApplicationContext(), DisplayActivity.class);
                 startActivity(intentNext);
                 break;
-
         }
     }
 

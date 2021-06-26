@@ -9,8 +9,11 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fallinlove.DBUtil.DisplaySettingDB;
+import com.example.fallinlove.DBUtil.ImageSettingDB;
 import com.example.fallinlove.Model.DisplaySetting;
+import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.ImageConvert;
 import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
 
@@ -18,23 +21,30 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
 
     User user;
     DisplaySetting displaySetting;
+    ImageSetting imageSetting;
 
     Intent intentNext;
 
     ImageButton btnBack;
     ImageView imgMessage, imgResponsibility, imgNone, imgBorderMessage, imgBorderResponsibility, imgBorderNone;
 
+    ImageView imgBgHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
 
-        user = (User) SharedPreferenceProvider.getInstance(this).get("user");
-        displaySetting = DisplaySettingDB.getInstance(this).get(user);
-
+        getModel();
         getView();
         setView();
         setOnClick();
+    }
+
+    public void getModel(){
+        user = (User) SharedPreferenceProvider.getInstance(this).get("user");
+        displaySetting = DisplaySettingDB.getInstance(this).get(user);
+        imageSetting = ImageSettingDB.getInstance(this).get(user);
     }
 
     public void getView(){
@@ -45,6 +55,7 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         imgBorderMessage = findViewById(R.id.imgBorderMessage);
         imgBorderResponsibility = findViewById(R.id.imgBorderResponsibility);
         imgBorderNone = findViewById(R.id.imgBorderNone);
+        imgBgHome = findViewById(R.id.imgBgHome);
     }
 
     public void setView(){
@@ -55,6 +66,7 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         }else{
             selectMessage(R.id.imgNone);
         }
+        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
     }
 
     public void setOnClick(){

@@ -92,7 +92,7 @@ public class AnniversaryDB extends DatabaseHandler{
 
     public List<Anniversary> gets(User user){
         List<Anniversary> anniversaries = new ArrayList<Anniversary>();
-        String query = "SELECT * FROM " + TABLE_ANNIVERSARY + " WHERE " + KEY_USER_ID + "=" + user.getId();
+        String query = "SELECT * FROM " + TABLE_ANNIVERSARY + " WHERE " + KEY_USER_ID + "=" + user.getId() + " ORDER BY datetime(date) DESC";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){

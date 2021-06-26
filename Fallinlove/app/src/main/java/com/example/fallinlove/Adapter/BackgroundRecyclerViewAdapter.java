@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fallinlove.Activity.BackgroundActivity;
@@ -22,7 +24,7 @@ import com.example.fallinlove.R;
 
 import java.util.List;
 
-public class BackgroundRecyclerViewAdapter  extends RecyclerView.Adapter<BackgroundRecyclerViewAdapter.ViewHolder>{
+public class BackgroundRecyclerViewAdapter extends RecyclerView.Adapter<BackgroundRecyclerViewAdapter.ViewHolder>{
 
     public static List<Background> backgrounds;
 
@@ -34,12 +36,16 @@ public class BackgroundRecyclerViewAdapter  extends RecyclerView.Adapter<Backgro
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imgBackground, imgBorder;
+        public ImageButton btnClose;
+        public CardView cardViewClose;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             imgBackground = itemView.findViewById(R.id.imgBackground);
             imgBorder = itemView.findViewById(R.id.imgBorder);
+            btnClose = itemView.findViewById(R.id.btnClose);
+            cardViewClose = itemView.findViewById(R.id.cardViewClose);
         }
     }
 
@@ -57,10 +63,14 @@ public class BackgroundRecyclerViewAdapter  extends RecyclerView.Adapter<Backgro
         User user = (User) SharedPreferenceProvider.getInstance(holder.itemView.getContext()).get("user");
         Background background = backgrounds.get(position);
         holder.imgBackground.setImageBitmap(ImageConvert.ArrayByteToBitmap(background.getImage()));
-        if (background.isState())
+        if (background.isState()){
             holder.imgBorder.setVisibility(View.VISIBLE);
-        else
+            holder.cardViewClose.setVisibility(View.GONE);
+        }
+        else {
             holder.imgBorder.setVisibility(View.GONE);
+            holder.cardViewClose.setVisibility(View.VISIBLE);
+        }
 
         holder.imgBackground.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +82,8 @@ public class BackgroundRecyclerViewAdapter  extends RecyclerView.Adapter<Backgro
                     imageSetting.setBackground(background.getImage());
                     ImageSettingDB.getInstance(holder.imgBackground.getContext()).update(imageSetting);
                     BackgroundDB.getInstance(holder.itemView.getContext()).update(background);
-                    BackgroundActivity.loadBackground(BackgroundDB.getInstance(holder.itemView.getContext()).gets(user, "background"));
+                    BackgroundActivity.backgrounds = BackgroundDB.getInstance(holder.itemView.getContext()).gets(user, "background");
+                    BackgroundActivity.loadBackground(BackgroundActivity.backgrounds);
 
                     //Set background
                     Animation fadeInAnimation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.fade_in_image);
@@ -80,6 +91,16 @@ public class BackgroundRecyclerViewAdapter  extends RecyclerView.Adapter<Backgro
                     BackgroundActivity.imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(background.getImage()));
                     BackgroundActivity.isChangeBackground = true;
                 }
+            }
+        });
+
+        holder.btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BackgroundDB.getInstance(v.getContext()).delete(background);
+                removeItem(position);
+                BackgroundActivity.backgrounds = BackgroundDB.getInstance(holder.itemView.getContext()).gets(user, "background");
+//                BackgroundActivity.loadBackground(BackgroundActivity.backgrounds);
             }
         });
     }

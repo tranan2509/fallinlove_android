@@ -3,41 +3,55 @@ package com.example.fallinlove.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fallinlove.Adapter.AnniversaryRecyclerViewAdapter;
+import com.example.fallinlove.DBUtil.AnniversaryDB;
+import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.Model.Anniversary;
+import com.example.fallinlove.Model.ImageSetting;
+import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.ImageConvert;
+import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class AnniversaryActivity extends AppCompatActivity implements View.OnClickListener{
 
+    //Model
+    User user;
+    ImageSetting imageSetting;
+
     ChipNavigationBar chipNavigationBar;
     Intent intentBottom, intentNext;
     RecyclerView recyclerViewAnniversary;
 
     AnniversaryRecyclerViewAdapter anniversaryRecyclerViewAdapter;
-    public static List<String> anniversaries;
+    public static List<Anniversary> anniversaries;
     //Bottom sheet dialog
     BottomSheetDialog bottomSheetDialog;
     View bottomSheetView;
+    ImageView imgBgHome;
 
     FloatingActionButton btnAdd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anniversary);
 
+        getModel();
         getView();
         setView();
         setOnClick();
@@ -48,19 +62,25 @@ public class AnniversaryActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    public void getModel(){
+        user = (User) SharedPreferenceProvider.getInstance(this).get("user");
+        imageSetting = ImageSettingDB.getInstance(this).get(user);
+        anniversaries = AnniversaryDB.getInstance(this).gets(user);
+    }
+
     public void getView(){
         chipNavigationBar = findViewById(R.id.chipNavigationBar);
         recyclerViewAnniversary = findViewById(R.id.recyclerViewAnniversary);
         btnAdd = findViewById(R.id.btnAdd);
+        imgBgHome = findViewById(R.id.imgBgHome);
     }
 
     public void setView(){
 
         chipNavigationBar.setItemSelected(R.id.anniversary, true);
-//        chipNavigationBar.showBadge(R.id.anniversary, 2);
-//        chipNavigationBar.showBadge(R.id.restaurant);
+        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
 
-        loadRecycleView();
+        loadRecycleView(anniversaries);
     }
 
     public void setOnClick(){
@@ -107,18 +127,7 @@ public class AnniversaryActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public void loadRecycleView(){
-        anniversaries = new ArrayList<String>();
-        anniversaries.add("1");
-        anniversaries.add("1");
-        anniversaries.add("1");
-        anniversaries.add("1");
-        anniversaries.add("1");
-        anniversaries.add("1");
-        anniversaries.add("1");
-        anniversaries.add("1");
-        anniversaries.add("1");
-
+    public void loadRecycleView(List<Anniversary> anniversaries){
         if (recyclerViewAnniversary != null) {
             anniversaryRecyclerViewAdapter = new AnniversaryRecyclerViewAdapter(anniversaries);
             recyclerViewAnniversary.setAdapter(anniversaryRecyclerViewAdapter);

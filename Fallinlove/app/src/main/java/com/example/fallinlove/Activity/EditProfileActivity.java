@@ -21,12 +21,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.fallinlove.DBUtil.ImageSettingDB;
 import com.example.fallinlove.DBUtil.PersonDB;
+import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.Person;
 import com.example.fallinlove.Model.User;
 import com.example.fallinlove.Provider.DateProvider;
 import com.example.fallinlove.Provider.ImageConvert;
 import com.example.fallinlove.Provider.ImageResizer;
+import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
 
 import java.io.IOException;
@@ -39,6 +42,7 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
     //Model
     User user;
     Person person;
+    ImageSetting imageSetting;
 
     //View
     Intent intent, intentNext;
@@ -46,6 +50,7 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
     ImageView imgAvatar;
     ImageButton btnAdd, btnBack, btnSelectDate;
     Button btnSave;
+    ImageView imgBgHome;
 
     //Date
     private int mYear, mMonth, mDay;
@@ -55,12 +60,18 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        intent = getIntent();
-        int personId = intent.getIntExtra("personId", 1);
-        person = PersonDB.getInstance(this).get(personId);
+        getModel();
         getView();
         setView();
         setOnClick();
+    }
+
+    public void getModel(){
+        user = (User) SharedPreferenceProvider.getInstance(this).get("user");
+        intent = getIntent();
+        int personId = intent.getIntExtra("personId", 1);
+        person = PersonDB.getInstance(this).get(personId);
+        imageSetting = ImageSettingDB.getInstance(this).get(user);
     }
 
     public void getView(){
@@ -71,12 +82,14 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
         btnBack = findViewById(R.id.btnBack);
         btnSave = findViewById(R.id.btnSave);
         btnSelectDate = findViewById(R.id.btnSelectDate);
+        imgBgHome = findViewById(R.id.imgBgHome);
     }
 
     public void setView() {
         txtName.setText(person.getName());
         txtDob.setText(DateProvider.convertDateSqliteToPerson(person.getDob()));
         imgAvatar.setImageBitmap(ImageConvert.ArrayByteToBitmap(person.getAvatar()));
+        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
     }
 
     public void setOnClick(){
@@ -139,7 +152,7 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
         Intent pickIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         pickIntent.setType("image/*");
-        Intent chooserIntent = Intent.createChooser(getIntent, "Choose Image");
+        Intent chooserIntent = Intent.createChooser(getIntent, "Chọn ảnh");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
         startActivityForResult(chooserIntent, PICK_IMAGE);
     }
@@ -151,7 +164,7 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
             try {
                 Uri imageUri = data.getData();
                 Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                photo = ImageResizer.reduceBitmapSize(photo, (int)ImageResizer.MAX_SIZE);
+                photo = ImageResizer.reduceBitmapSize(photo, ImageResizer.MAX_SIZE);
                 imgAvatar.setImageBitmap(photo);
             } catch (IOException e) {
 

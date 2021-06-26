@@ -6,7 +6,7 @@ import android.util.Log;
 public class ImageResizer {
 
     //For Image Size 640*480, use MAX_SIZE =  307200 as 640*480 307200
-    public static int MAX_SIZE = 1000000;
+    public static int MAX_SIZE = 160000;
     //private static long THUMB_SIZE = 6553;
 
     public static Bitmap reduceBitmapSize(Bitmap bitmap,int MAX_SIZE) {

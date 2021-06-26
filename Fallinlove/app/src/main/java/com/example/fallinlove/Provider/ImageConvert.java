@@ -15,7 +15,7 @@ public class ImageConvert {
     {
         BitmapDrawable bitmapDrawable = (BitmapDrawable) img.getDrawable();
         Bitmap bitmap=bitmapDrawable.getBitmap();
-
+        bitmap = ImageResizer.reduceBitmapSize(bitmap, ImageResizer.MAX_SIZE);
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();

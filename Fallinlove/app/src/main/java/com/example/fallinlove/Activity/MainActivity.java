@@ -132,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (users == null || users.isEmpty()){
             Calendar cal = Calendar.getInstance();
             String now = DateProvider.dateFormat.format(cal.getTime());
-            user = new User("Gửi người yêu,\nGửi lời yêu thương đến người mình yêu để có thêm những cảm xúc bên nhau và gẫn gũi với nhau hơn giữa hai người <3\nIn love, kết nối yêu thương", now, now, true);
+            user = new User("Gửi người yêu,\nGửi lời yêu thương đến người mình yêu để có thêm những cảm xúc bên nhau và gẫn gũi với nhau hơn giữa hai người <3\nIn love, kết nối yêu thương",
+                    now, now, true);
             user.setId(1);
             DataInitialization.getInstance(this).insertAllData(user);
         }else{

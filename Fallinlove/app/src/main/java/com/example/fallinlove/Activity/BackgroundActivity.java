@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fallinlove.Adapter.BackgroundRecyclerViewAdapter;
+import com.example.fallinlove.Adapter.DaysRecyclerViewAdapter;
 import com.example.fallinlove.Adapter.HeartRecyclerViewAdapter;
 import com.example.fallinlove.DBUtil.BackgroundDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
@@ -46,19 +47,21 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
 
     //Model
     User user;
-    List<Background> hearts;
-    List<Background> backgrounds;
+    public static List<Background> hearts;
+    public static List<Background> backgrounds;
+    public static List<Background> days;
     ImageSetting imageSetting;
 
     //Elements
     Intent intentNext;
     public static ImageView imgBgHome;
-    public static RecyclerView recyclerViewHeart, recyclerViewBackground;
-    ImageButton btnBack, btnAddHeart, btnAddBackground;
+    public static RecyclerView recyclerViewHeart, recyclerViewBackground, recyclerViewDays;
+    ImageButton btnBack, btnAddHeart, btnAddBackground, btnAddDays;
 
     //Adapter
     public static HeartRecyclerViewAdapter heartRecyclerViewAdapter;
     public static BackgroundRecyclerViewAdapter backgroundRecyclerViewAdapter;
+    public static DaysRecyclerViewAdapter daysRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +74,22 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
         setOnClick();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (isChangeBackground){
+            intentNext = new Intent(getApplicationContext(), SettingActivity.class);
+            startActivity(intentNext);
+        }
+        finish();
+    }
+
+
     public void loadModel(){
         user = (User) SharedPreferenceProvider.getInstance(this).get("user");
         imageSetting = ImageSettingDB.getInstance(this).get(user);
         hearts = BackgroundDB.getInstance(this).gets(user, "heart");
         backgrounds = BackgroundDB.getInstance(this).gets(user,"background");
+        days = BackgroundDB.getInstance(this).gets(user, "days");
     }
 
     public void getView(){
@@ -86,11 +100,12 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
         btnBack = findViewById(R.id.btnBack);
         btnAddHeart = findViewById(R.id.btnAddHeart);
         btnAddBackground = findViewById(R.id.btnAddBackground);
+        btnAddDays = findViewById(R.id.btnAddDays);
 
         //recycler view
         recyclerViewHeart = findViewById(R.id.recyclerViewHeart);
         recyclerViewBackground = findViewById(R.id.recyclerViewBackground);
-
+        recyclerViewDays = findViewById(R.id.recyclerViewDays);
     }
 
     public void setView(){
@@ -100,12 +115,14 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
 
         loadHearts(hearts);
         loadBackground(backgrounds);
+        loadDays(days);
     }
 
     public void setOnClick(){
         btnBack.setOnClickListener(this);
         btnAddHeart.setOnClickListener(this);
         btnAddBackground.setOnClickListener(this);
+        btnAddDays.setOnClickListener(this);
     }
 
     public void onClick(View view){
@@ -125,6 +142,10 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
                 type = "background";
                 getImageGallery();
                 break;
+            case R.id.btnAddDays:
+                type = "days";
+                getImageGallery();
+                break;
         }
     }
 
@@ -142,6 +163,14 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
         backgroundRecyclerViewAdapter = new BackgroundRecyclerViewAdapter(backgrounds);
         recyclerViewBackground.setAdapter(backgroundRecyclerViewAdapter);
         recyclerViewBackground.setItemAnimator(new SlideInUpAnimator());
+    }
+
+    public static void loadDays(List<Background> backgrounds){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerViewDays.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewDays.setLayoutManager(layoutManager);
+        daysRecyclerViewAdapter = new DaysRecyclerViewAdapter(backgrounds);
+        recyclerViewDays.setAdapter(daysRecyclerViewAdapter);
+        recyclerViewDays.setItemAnimator(new SlideInUpAnimator());
     }
 
     private void getImageGallery(){
@@ -177,6 +206,12 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
                         backgroundRecyclerViewAdapter.notifyItemInserted(backgrounds.size() - 1);
                         recyclerViewBackground.scrollToPosition(backgroundRecyclerViewAdapter.getItemCount() - 1);
                         loadBackground(backgrounds);
+                        break;
+                    case "days":
+                        days.add(img);
+                        daysRecyclerViewAdapter.notifyItemInserted(days.size() - 1);
+                        recyclerViewDays.scrollToPosition(daysRecyclerViewAdapter.getItemCount() - 1);
+                        loadDays(days);
                         break;
                 }
             } catch (IOException e) {

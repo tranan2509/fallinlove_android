@@ -22,13 +22,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginBottom="80dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/rounded_transparent">
 
        <androidx.recyclerview.widget.RecyclerView
            android:id="@+id/recyclerViewAnniversary"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           />
+           android:background="@drawable/rounded_transparent"/>
 
     </LinearLayout>
 

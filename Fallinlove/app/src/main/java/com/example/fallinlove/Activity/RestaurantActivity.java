@@ -3,22 +3,35 @@ package com.example.fallinlove.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.Model.ImageSetting;
+import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.ImageConvert;
+import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class RestaurantActivity extends AppCompatActivity implements View.OnClickListener{
 
+    //Model
+    User user;
+    ImageSetting imageSetting;
+
     ChipNavigationBar chipNavigationBar;
     Intent intentBottom;
+
+    ImageView imgBgHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
+        getModel();
         getView();
         setView();
         setOnClick();
@@ -29,16 +42,21 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    public void getModel(){
+        user = (User) SharedPreferenceProvider.getInstance(this).get("user");
+        imageSetting = ImageSettingDB.getInstance(this).get(user);
+    }
+
+
     public void getView(){
         chipNavigationBar = findViewById(R.id.chipNavigationBar);
+        imgBgHome = findViewById(R.id.imgBgHome);
     }
 
     public void setView(){
 
         chipNavigationBar.setItemSelected(R.id.restaurant, true);
-//        chipNavigationBar.showBadge(R.id.anniversary, 2);
-//        chipNavigationBar.showBadge(R.id.restaurant);
-
+        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
     }
 
     public void setOnClick(){

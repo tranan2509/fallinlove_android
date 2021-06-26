@@ -26,10 +26,14 @@
             android:id="@+id/tabResponsibility"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             app:tabTextColor="@color/black"
-            app:tabIndicatorColor="@color/black"
+            app:tabIndicatorColor="#000000"
+            app:tabIndicatorFullWidth="false"
+            app:tabRippleColor="@null"
             app:tabSelectedTextColor="@color/black"
-            android:background="@color/white">
+            android:background="@drawable/bg_rounded_responsibility">
 
             <com.google.android.material.tabs.TabItem
                 android:id="@+id/tabItemDaily"

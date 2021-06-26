@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -14,6 +15,11 @@ import com.example.fallinlove.Activity.ui.DailyFragment;
 import com.example.fallinlove.Activity.ui.ResponsibilityAdapter;
 import com.example.fallinlove.Activity.ui.ResponsibilityFragment;
 import com.example.fallinlove.Adapter.StringSpinnerAdapter;
+import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.Model.ImageSetting;
+import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.ImageConvert;
+import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,7 +29,11 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class ResponsibilityActivity extends AppCompatActivity implements View.OnClickListener{
 
+    //Model
+    User user;
+    ImageSetting imageSetting;
 
+    //Navigation bar
     ChipNavigationBar chipNavigationBar;
     Intent intentBottom;
 
@@ -38,12 +48,14 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
     FloatingActionButton btnAdd;
     String[] typeResponsibility, level;
     Spinner spnTypeResponsibilities, spnLevels;
+    ImageView imgBgHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_responsibility);
 
+        getModel();
         getView();
         setView();
         setOnClick();
@@ -52,6 +64,11 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
     @Override
     public void onBackPressed() {
 
+    }
+
+    public void getModel(){
+        user = (User) SharedPreferenceProvider.getInstance(this).get("user");
+        imageSetting = ImageSettingDB.getInstance(this).get(user);
     }
 
     public void getView(){
@@ -64,13 +81,13 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
         tabItemAdd = findViewById(R.id.tabItemAdd);
 
         btnAdd = findViewById(R.id.btnAdd);
+
+        imgBgHome = findViewById(R.id.imgBgHome);
     }
 
     public void setView(){
 
         chipNavigationBar.setItemSelected(R.id.responsibility, true);
-//        chipNavigationBar.showBadge(R.id.anniversary, 2);
-//        chipNavigationBar.showBadge(R.id.restaurant);
 
         responsibilityAdapter = new ResponsibilityAdapter(getSupportFragmentManager(), tabResponsibility.getTabCount());
         viewPageResponsibility.setAdapter(responsibilityAdapter);
@@ -78,6 +95,8 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
 
         //Hide tab
         tabResponsibility.removeTabAt(2);
+
+        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
     }
 
     public void setOnClick(){

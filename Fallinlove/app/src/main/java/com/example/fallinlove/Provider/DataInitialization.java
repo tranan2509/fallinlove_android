@@ -61,7 +61,7 @@ public class DataInitialization {
     }
 
     public void insertImageSetting(User user){
-        byte[] background = ImageConvert.ResourceToArrayByte(context, R.drawable.background_default);
+        byte[] background = ImageConvert.ResourceToArrayByte(context, R.drawable.bg_in_love_02);
         byte[] heart = ImageConvert.ResourceToArrayByte(context, R.drawable.icons8_heart_48);
         byte[] days = ImageConvert.ResourceToArrayByte(context, R.drawable.bg_days_home);
         ImageSetting imageSetting = new ImageSetting(user.getId(), background, heart, days, true);
@@ -84,9 +84,9 @@ public class DataInitialization {
         byte[] heart04 = ImageConvert.ResourceToArrayByte(context, R.drawable.heart_04);
         byte[] days01 = ImageConvert.ResourceToArrayByte(context, R.drawable.bg_days_home);
 
-        Background background_01 = new Background(user.getId(), background01, "background", true);
+        Background background_01 = new Background(user.getId(), background01, "background", false);
         Background background_001 = new Background(user.getId(), background001, "background", false);
-        Background background_02 = new Background(user.getId(), background02, "background", false);
+        Background background_02 = new Background(user.getId(), background02, "background", true);
         Background background_03 = new Background(user.getId(), background03, "background", false);
         Background background_04 = new Background(user.getId(), background04, "background", false);
         Background background_05 = new Background(user.getId(), heart01, "heart", true);
@@ -96,8 +96,8 @@ public class DataInitialization {
         Background background_09 = new Background(user.getId(), days01, "days", true);
 
         BackgroundDB.getInstance(context).add(background_01);
-        BackgroundDB.getInstance(context).add(background_001);
         BackgroundDB.getInstance(context).add(background_02);
+        BackgroundDB.getInstance(context).add(background_001);
         BackgroundDB.getInstance(context).add(background_03);
         BackgroundDB.getInstance(context).add(background_04);
         BackgroundDB.getInstance(context).add(background_05);
