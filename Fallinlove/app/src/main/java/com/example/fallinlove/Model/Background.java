@@ -8,7 +8,7 @@ public class Background {
     private int userId;
     private byte[] image;
     private String type;// background - heart - days
-    private boolean state; //true: can delete - false: can't delete
+    private boolean state; //true: selected - false: unselected
 
     public Background() {
     }

@@ -78,7 +78,7 @@ public class BackgroundDB extends DatabaseHandler{
         List<Background> backgrounds = new ArrayList<Background>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_BACKGROUND, new String[]{KEY_ID, KEY_USER_ID, KEY_IMAGE, KEY_TYPE, KEY_STATE},
-                KEY_ID + "=? AND " + KEY_TYPE + "=?", new String[]{String.valueOf(user.getId()), type}, null, null, null, null);
+                KEY_USER_ID + "=? AND " + KEY_TYPE + "=?", new String[]{String.valueOf(user.getId()), type}, null, null, null, null);
         if (cursor.moveToFirst()){
             do {
                 Background background = new Background(cursor);

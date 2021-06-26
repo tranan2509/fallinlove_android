@@ -8,13 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fallinlove.DBUtil.ImageSettingDB;
 import com.example.fallinlove.DBUtil.UserDB;
+import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.User;
 import com.example.fallinlove.Provider.DateProvider;
+import com.example.fallinlove.Provider.ImageConvert;
 import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -24,11 +28,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     //Model
     User user;
+    ImageSetting imageSetting;
 
     //Element of view
     ChipNavigationBar chipNavigationBar;
     Intent intentBottom, intentNext;
     Button btnDisplay, btnImage, btnEdit, btnSelectDate;
+    ImageView imgBgHome;
 
     //Dialog message
     BottomSheetDialog bottomSheetDialog;
@@ -42,8 +48,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        user = (User)SharedPreferenceProvider.getInstance(this).get("user");
-
+        getModel();
         getView();
         setOnClick();
         setView();
@@ -54,8 +59,14 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    public void getModel(){
+        user = (User)SharedPreferenceProvider.getInstance(this).get("user");
+        imageSetting = ImageSettingDB.getInstance(this).get(user);
+    }
+
     public void getView(){
         chipNavigationBar = findViewById(R.id.chipNavigationBar);
+        imgBgHome = findViewById(R.id.imgBgHome);
         btnDisplay = findViewById(R.id.btnDisplay);
         btnImage = findViewById(R.id.btnImage);
         btnEdit = findViewById(R.id.btnEdit);
@@ -64,6 +75,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     public void setView(){
         chipNavigationBar.setItemSelected(R.id.setting, true);
+        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
     }
 
     public void setOnClick(){

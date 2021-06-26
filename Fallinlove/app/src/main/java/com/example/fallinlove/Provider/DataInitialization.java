@@ -74,24 +74,29 @@ public class DataInitialization {
 
     public void insertBackground(User user){
         byte[] background01 = ImageConvert.ResourceToArrayByte(context, R.drawable.background_default);
+        byte[] background001 = ImageConvert.ResourceToArrayByte(context, R.drawable.bg_in_love);
         byte[] background02 = ImageConvert.ResourceToArrayByte(context, R.drawable.bg_in_love_02);
         byte[] background03 = ImageConvert.ResourceToArrayByte(context, R.drawable.bg_in_love_03);
         byte[] background04 = ImageConvert.ResourceToArrayByte(context, R.drawable.bg_in_love_04);
         byte[] heart01 = ImageConvert.ResourceToArrayByte(context, R.drawable.icons8_heart_48);
         byte[] heart02 = ImageConvert.ResourceToArrayByte(context, R.drawable.heart_02);
         byte[] heart03 = ImageConvert.ResourceToArrayByte(context, R.drawable.heart_03);
+        byte[] heart04 = ImageConvert.ResourceToArrayByte(context, R.drawable.heart_04);
         byte[] days01 = ImageConvert.ResourceToArrayByte(context, R.drawable.bg_days_home);
 
-        Background background_01 = new Background(user.getId(), background01, "background", false);
-        Background background_02 = new Background(user.getId(), background02, "background", true);
-        Background background_03 = new Background(user.getId(), background03, "background", true);
-        Background background_04 = new Background(user.getId(), background04, "background", true);
-        Background background_05 = new Background(user.getId(), heart01, "background", true);
-        Background background_06 = new Background(user.getId(), heart02, "background", true);
-        Background background_07 = new Background(user.getId(), heart03, "background", true);
-        Background background_08 = new Background(user.getId(), days01, "background", true);
+        Background background_01 = new Background(user.getId(), background01, "background", true);
+        Background background_001 = new Background(user.getId(), background001, "background", false);
+        Background background_02 = new Background(user.getId(), background02, "background", false);
+        Background background_03 = new Background(user.getId(), background03, "background", false);
+        Background background_04 = new Background(user.getId(), background04, "background", false);
+        Background background_05 = new Background(user.getId(), heart01, "heart", true);
+        Background background_06 = new Background(user.getId(), heart02, "heart", false);
+        Background background_07 = new Background(user.getId(), heart03, "heart", false);
+        Background background_08 = new Background(user.getId(), heart04, "heart", false);
+        Background background_09 = new Background(user.getId(), days01, "days", true);
 
         BackgroundDB.getInstance(context).add(background_01);
+        BackgroundDB.getInstance(context).add(background_001);
         BackgroundDB.getInstance(context).add(background_02);
         BackgroundDB.getInstance(context).add(background_03);
         BackgroundDB.getInstance(context).add(background_04);
@@ -99,6 +104,7 @@ public class DataInitialization {
         BackgroundDB.getInstance(context).add(background_06);
         BackgroundDB.getInstance(context).add(background_07);
         BackgroundDB.getInstance(context).add(background_08);
+        BackgroundDB.getInstance(context).add(background_09);
     }
 
     public void insertZodiac(){

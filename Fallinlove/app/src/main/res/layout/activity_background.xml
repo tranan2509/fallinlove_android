@@ -7,6 +7,176 @@
     tools:context=".Activity.BackgroundActivity"
     android:background="@color/background_primary">
 
+    <ImageView
+        android:id="@+id/imgBgHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background_default"
+        android:scaleType="centerCrop"
+        android:visibility="visible"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="8dp">
+
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_arrow_back_24"
+                    android:background="#00ffffff"
+                    app:layout_constraintTop_toTopOf="@id/tvTitle"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="Cài đặt hình nền"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="serif"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/red_custom"/>
+
+                <View
+                    android:id="@+id/viewHeader"
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_height="1dp"
+                    android:background="#eeeeee"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:paddingBottom="8dp"
+                android:background="@drawable/bg_rounded_white_opacity">
+
+                <TextView
+                    android:id="@+id/tvTitleHeart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="Trái tim"
+                    android:textSize="16sp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="@color/purple_custom"
+                    android:textStyle="bold"
+                    android:fontFamily="serif"/>
+
+                <ImageButton
+                    android:id="@+id/btnAddHeart"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:layout_constraintTop_toTopOf="@id/tvTitleHeart"
+                    app:layout_constraintBottom_toBottomOf="@id/tvTitleHeart"
+                    app:layout_constraintRight_toRightOf="@id/tvTitleHeart"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_baseline_add_a_photo_24"
+                    android:background="#00ffffff"
+                    android:scaleType="centerCrop" />
+
+                <View
+                    android:id="@+id/viewHeart"
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleHeart"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_height="1dp"
+                    android:background="#eeeeee"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewHeart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/viewHeart"
+                    android:padding="20dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:paddingBottom="8dp"
+                android:background="@drawable/bg_rounded_white_opacity">
+
+                <TextView
+                    android:id="@+id/tvTitleBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:text="Hình nền"
+                    android:textSize="16sp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="@color/purple_custom"
+                    android:textStyle="bold"
+                    android:fontFamily="serif"/>
+
+                <ImageButton
+                    android:id="@+id/btnAddBackground"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:layout_constraintTop_toTopOf="@id/tvTitleBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/tvTitleBackground"
+                    app:layout_constraintRight_toRightOf="@id/tvTitleBackground"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_baseline_add_a_photo_24"
+                    android:background="#00ffffff"
+                    android:scaleType="centerCrop" />
+
+                <View
+                    android:id="@+id/viewBackground"
+                    android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleBackground"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_height="1dp"
+                    android:background="#eeeeee"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/viewBackground"
+                    android:padding="20dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

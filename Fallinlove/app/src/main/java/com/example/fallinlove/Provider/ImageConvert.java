@@ -30,6 +30,7 @@ public class ImageConvert {
 
     public static byte[] ResourceToArrayByte(Context context, int id){
         Bitmap bm = BitmapFactory.decodeResource( context.getResources(), id);
+        bm = ImageResizer.reduceBitmapSize(bm, ImageResizer.MAX_SIZE);
         return BitmapToArrayByte(bm);
     }
 
