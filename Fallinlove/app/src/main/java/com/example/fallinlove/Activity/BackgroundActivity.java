@@ -81,6 +81,7 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
             startActivity(intentNext);
         }
         finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 
 
@@ -133,6 +134,7 @@ public class BackgroundActivity extends AppCompatActivity implements View.OnClic
                     startActivity(intentNext);
                 }
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 break;
             case R.id.btnAddHeart:
                 type = "heart";

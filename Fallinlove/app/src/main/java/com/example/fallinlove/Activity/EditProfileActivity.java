@@ -21,8 +21,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
 import com.example.fallinlove.DBUtil.PersonDB;
+import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.Person;
 import com.example.fallinlove.Model.User;
@@ -43,6 +45,7 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
     User user;
     Person person;
     ImageSetting imageSetting;
+    DisplaySetting displaySetting;
 
     //View
     Intent intent, intentNext;
@@ -72,6 +75,7 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
         int personId = intent.getIntExtra("personId", 1);
         person = PersonDB.getInstance(this).get(personId);
         imageSetting = ImageSettingDB.getInstance(this).get(user);
+        displaySetting = DisplaySettingDB.getInstance(this).get(user);
     }
 
     public void getView(){
@@ -103,14 +107,16 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
         switch (view.getId()){
             case R.id.btnBack:
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 break;
             case R.id.btnAdd:
                 getImageGallery();
                 break;
             case R.id.btnSave:
                 save();
-                intentNext = new Intent(getApplicationContext(), MainActivity.class);
+                intentNext = displaySetting.getMain() == 1 ? new Intent(getApplicationContext(), MainActivity.class) : new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intentNext);
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 break;
             case R.id.btnSelectDate:
                 selectDate();

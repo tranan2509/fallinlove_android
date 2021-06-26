@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fallinlove.Adapter.AnniversaryRecyclerViewAdapter;
 import com.example.fallinlove.DBUtil.AnniversaryDB;
+import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
 import com.example.fallinlove.Model.Anniversary;
+import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.User;
 import com.example.fallinlove.Provider.ImageConvert;
@@ -31,6 +33,7 @@ public class AnniversaryActivity extends AppCompatActivity implements View.OnCli
     //Model
     User user;
     ImageSetting imageSetting;
+    DisplaySetting displaySetting;
 
     ChipNavigationBar chipNavigationBar;
     Intent intentBottom, intentNext;
@@ -65,6 +68,7 @@ public class AnniversaryActivity extends AppCompatActivity implements View.OnCli
     public void getModel(){
         user = (User) SharedPreferenceProvider.getInstance(this).get("user");
         imageSetting = ImageSettingDB.getInstance(this).get(user);
+        displaySetting = DisplaySettingDB.getInstance(this).get(user);
         anniversaries = AnniversaryDB.getInstance(this).gets(user);
     }
 
@@ -103,7 +107,7 @@ public class AnniversaryActivity extends AppCompatActivity implements View.OnCli
     public void onChipNavigationBarSelected(int id){
         switch (id){
             case R.id.home:
-                intentBottom = new Intent(getApplicationContext(), MainActivity.class);
+                intentBottom = displaySetting.getMain() == 1 ? new Intent(getApplicationContext(), MainActivity.class) : new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intentBottom);
                 overridePendingTransition(0,0);
                 break;

@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
@@ -27,8 +28,13 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
 
     ImageButton btnBack;
     ImageView imgMessage, imgResponsibility, imgNone, imgBorderMessage, imgBorderResponsibility, imgBorderNone;
+    ImageView imgDisplay01, imgDisplay02, imgBorderDisplay01, imgBorderDisplay02;
+
+    ConstraintLayout layoutMessage;
 
     ImageView imgBgHome;
+
+    public static boolean isChangeDisplay = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,16 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         getView();
         setView();
         setOnClick();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isChangeDisplay){
+            intentNext = new Intent(getApplicationContext(), SettingActivity.class);
+            startActivity(intentNext);
+        }
+        finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 
     public void getModel(){
@@ -56,9 +72,21 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         imgBorderResponsibility = findViewById(R.id.imgBorderResponsibility);
         imgBorderNone = findViewById(R.id.imgBorderNone);
         imgBgHome = findViewById(R.id.imgBgHome);
+        imgDisplay01 = findViewById(R.id.imgDisplay01);
+        imgDisplay02 = findViewById(R.id.imgDisplay02);
+        layoutMessage = findViewById(R.id.layoutMessage);
+        imgBorderDisplay01 = findViewById(R.id.imgBorderDisplay01);
+        imgBorderDisplay02 = findViewById(R.id.imgBorderDisplay02);
     }
 
     public void setView(){
+        isChangeDisplay = false;
+        if (displaySetting.getMain() == 1){
+            selectDisplay(R.id.imgDisplay01);
+        }else{
+            selectDisplay(R.id.imgDisplay02);
+        }
+
         if (displaySetting.getHome() == 1){
             selectMessage(R.id.imgMessage);
         }else if (displaySetting.getHome() == 2){
@@ -74,15 +102,26 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
         imgMessage.setOnClickListener(this);
         imgResponsibility.setOnClickListener(this);
         imgNone.setOnClickListener(this);
+        imgDisplay01.setOnClickListener(this);
+        imgDisplay02.setOnClickListener(this);
     }
 
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btnBack:
+                if (isChangeDisplay){
+                    intentNext = new Intent(getApplicationContext(), SettingActivity.class);
+                    startActivity(intentNext);
+                }
                 finish();
+                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                 break;
             case R.id.imgMessage: case R.id.imgResponsibility: case R.id.imgNone:
                 selectMessage(view.getId());
+                break;
+            case R.id.imgDisplay01: case R.id.imgDisplay02:
+                isChangeDisplay = true;
+                selectDisplay(view.getId());
                 break;
         }
     }
@@ -106,6 +145,34 @@ public class DisplayActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
         save(id);
+    }
+
+    public void selectDisplay(int id){
+        switch (id){
+            case R.id.imgDisplay01:
+                imgBorderDisplay01.setVisibility(View.VISIBLE);
+                imgBorderDisplay02.setVisibility(View.GONE);
+                layoutMessage.setVisibility(View.VISIBLE);
+                break;
+            case R.id.imgDisplay02:
+                imgBorderDisplay01.setVisibility(View.GONE);
+                imgBorderDisplay02.setVisibility(View.VISIBLE);
+                layoutMessage.setVisibility(View.GONE);
+                break;
+        }
+        saveDisplay(id);
+    }
+
+    private void saveDisplay(int id) {
+        switch (id){
+            case R.id.imgDisplay01:
+                displaySetting.setMain(1);
+                break;
+            case R.id.imgDisplay02:
+                displaySetting.setMain(2);
+                break;
+        }
+        DisplaySettingDB.getInstance(this).update(displaySetting);
     }
 
     public void save(int id){

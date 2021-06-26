@@ -83,7 +83,7 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
     TextView txtViewYear, txtViewMonth, txtViewWeek, txtViewDay, txtViewHour, txtViewMinute, txtViewSecond;
     TextView txtViewDays, txtViewAgeMale, txtViewAgeFemale, txtViewNameMale, txtViewNameFemale, txtViewZodiacMale, txtViewZodiacFemale;
     ImageView imgViewAvatarMale, imgViewAvatarFemale, imgViewZodiacMale, imgViewZodiacFemale;
-    ImageView imgBgHome, imgHeart;
+    ImageView imgHeart;
     Date dateLoveDate;
 
     @Override
@@ -115,8 +115,6 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
     }
 
     public void getModel(View view){
-//        user.setLovedDate("2021-01-09");
-//        UserDB.getInstance(this).update(user);
         user = (User) SharedPreferenceProvider.getInstance(view.getContext()).get("user");
         persons = PersonDB.getInstance(view.getContext()).gets();
         male = persons.get(0);
@@ -126,7 +124,6 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
     }
 
     private void getViewFragment(View view){
-
 //      Get date
         txtViewDays = view.findViewById(R.id.txtViewDays);
         txtViewYear = view.findViewById(R.id.txtViewYear);
@@ -148,7 +145,6 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
         imgViewZodiacFemale = view.findViewById(R.id.imgViewZodiacFemale);
 
         //Get background
-        imgBgHome = view.findViewById(R.id.imgBgHome);
         imgHeart = view.findViewById(R.id.imgHeart);
     }
 
@@ -170,7 +166,6 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
         txtViewZodiacFemale.setText(ZodiacProvider.getZodiacName(zodiacFemaleId, false));
 
         //Set image setting
-        imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
         imgHeart.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getHeart()));
     }
 
@@ -181,6 +176,7 @@ public class LoveFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view){
 
     }
+
 
     long getDistance(){
         Calendar cal = Calendar.getInstance();

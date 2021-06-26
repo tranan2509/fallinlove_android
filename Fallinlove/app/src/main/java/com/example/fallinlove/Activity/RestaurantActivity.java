@@ -7,7 +7,9 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.User;
 import com.example.fallinlove.Provider.ImageConvert;
@@ -20,6 +22,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     //Model
     User user;
     ImageSetting imageSetting;
+    DisplaySetting displaySetting;
 
     ChipNavigationBar chipNavigationBar;
     Intent intentBottom;
@@ -45,6 +48,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     public void getModel(){
         user = (User) SharedPreferenceProvider.getInstance(this).get("user");
         imageSetting = ImageSettingDB.getInstance(this).get(user);
+        displaySetting = DisplaySettingDB.getInstance(this).get(user);
     }
 
 
@@ -72,7 +76,7 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     public void onChipNavigationBarSelected(int id){
         switch (id){
             case R.id.home:
-                intentBottom = new Intent(getApplicationContext(), MainActivity.class);
+                intentBottom = displaySetting.getMain() == 1 ? new Intent(getApplicationContext(), MainActivity.class) : new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intentBottom);
                 overridePendingTransition(0,0);
                 break;

@@ -13,8 +13,10 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
 import com.example.fallinlove.DBUtil.UserDB;
+import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.User;
 import com.example.fallinlove.Provider.DateProvider;
@@ -29,11 +31,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     //Model
     User user;
     ImageSetting imageSetting;
+    DisplaySetting displaySetting;
 
     //Element of view
     ChipNavigationBar chipNavigationBar;
     Intent intentBottom, intentNext;
-    Button btnDisplay, btnImage, btnEdit, btnSelectDate;
+    Button btnDisplay, btnImage, btnEdit, btnSelectDate, btnReport, btnAppInfo;
     ImageView imgBgHome;
 
     //Dialog message
@@ -62,6 +65,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     public void getModel(){
         user = (User)SharedPreferenceProvider.getInstance(this).get("user");
         imageSetting = ImageSettingDB.getInstance(this).get(user);
+        displaySetting = DisplaySettingDB.getInstance(this).get(user);
     }
 
     public void getView(){
@@ -71,6 +75,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         btnImage = findViewById(R.id.btnImage);
         btnEdit = findViewById(R.id.btnEdit);
         btnSelectDate = findViewById(R.id.btnSelectDate);
+        btnReport = findViewById(R.id.btnReport);
+        btnAppInfo = findViewById(R.id.btnAppInfo);
     }
 
     public void setView(){
@@ -87,6 +93,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         btnImage.setOnClickListener(this);
         btnEdit.setOnClickListener(this);
         btnSelectDate.setOnClickListener(this);
+        btnReport.setOnClickListener(this);
+        btnAppInfo.setOnClickListener(this);
     }
 
     public void onClick(View view){
@@ -95,8 +103,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 showDialog(view);
                 break;
             case R.id.btnEdit:
-                intentNext = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intentNext);
+
                 break;
             case R.id.btnImage:
                 intentNext = new Intent(getApplicationContext(), BackgroundActivity.class);
@@ -106,13 +113,20 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 intentNext = new Intent(getApplicationContext(), DisplayActivity.class);
                 startActivity(intentNext);
                 break;
+            case R.id.btnReport:
+                sendMail();
+                break;
+            case R.id.btnAppInfo:
+                intentNext = new Intent(getApplicationContext(), AppInfoActivity.class);
+                startActivity(intentNext);
+                break;
         }
     }
 
     public void onChipNavigationBarSelected(int id){
         switch (id){
             case R.id.home:
-                intentBottom = new Intent(getApplicationContext(), MainActivity.class);
+                intentBottom = displaySetting.getMain() == 1 ? new Intent(getApplicationContext(), MainActivity.class) : new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intentBottom);
                 overridePendingTransition(0,0);
                 break;
@@ -180,6 +194,15 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 }, mYear, mMonth - 1, mDay);
         datePickerDialog.show();
+    }
+
+    public void sendMail(){
+        Intent si = new Intent(Intent.ACTION_SEND);
+        si.setType("message/rfc822");
+        si.putExtra(Intent.EXTRA_EMAIL, new String[]{"tranan2509@gmail.com"});
+        si.putExtra(Intent.EXTRA_SUBJECT, "Phản hồi về ứng dụng In Love");
+        si.putExtra(Intent.EXTRA_TEXT, "");
+        startActivity(Intent.createChooser(si,"Chọn ứng dụng Mail"));
     }
 
 }

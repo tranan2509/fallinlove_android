@@ -15,7 +15,9 @@ import com.example.fallinlove.Activity.ui.DailyFragment;
 import com.example.fallinlove.Activity.ui.ResponsibilityAdapter;
 import com.example.fallinlove.Activity.ui.ResponsibilityFragment;
 import com.example.fallinlove.Adapter.StringSpinnerAdapter;
+import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.User;
 import com.example.fallinlove.Provider.ImageConvert;
@@ -32,6 +34,7 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
     //Model
     User user;
     ImageSetting imageSetting;
+    DisplaySetting displaySetting;
 
     //Navigation bar
     ChipNavigationBar chipNavigationBar;
@@ -69,6 +72,7 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
     public void getModel(){
         user = (User) SharedPreferenceProvider.getInstance(this).get("user");
         imageSetting = ImageSettingDB.getInstance(this).get(user);
+        displaySetting = DisplaySettingDB.getInstance(this).get(user);
     }
 
     public void getView(){
@@ -118,7 +122,7 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
     public void onChipNavigationBarSelected(int id){
         switch (id){
             case R.id.home:
-                intentBottom = new Intent(getApplicationContext(), MainActivity.class);
+                intentBottom = displaySetting.getMain() == 1 ? new Intent(getApplicationContext(), MainActivity.class) : new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intentBottom);
                 overridePendingTransition(0,0);
                 break;

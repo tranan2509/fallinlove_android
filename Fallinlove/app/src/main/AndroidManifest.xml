@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fallinlove">
-        <activity android:name=".Activity.ViewImageActivity"></activity>
+        <activity android:name=".Activity.AppInfoActivity"></activity>
+        <activity android:name=".Activity.ViewImageActivity" />
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +39,14 @@
         <activity android:name=".Activity.RestaurantActivity" />
         <activity android:name=".Activity.AnniversaryActivity" />
         <activity android:name=".Activity.ResponsibilityActivity" />
-        <activity android:name=".Activity.SettingActivity" />
+        <activity android:name=".Activity.SettingActivity" >
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="message/rfc822"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.MainActivity">
             <intent-filter>

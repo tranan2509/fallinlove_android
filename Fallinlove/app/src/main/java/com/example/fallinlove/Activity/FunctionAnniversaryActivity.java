@@ -159,6 +159,7 @@ public class FunctionAnniversaryActivity extends AppCompatActivity implements Vi
         intent = new Intent(this, AnniversaryActivity.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 
     private void save() {
@@ -179,6 +180,7 @@ public class FunctionAnniversaryActivity extends AppCompatActivity implements Vi
         intent = new Intent(this, AnniversaryActivity.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
     }
 
     public void selectDate(){

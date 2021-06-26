@@ -267,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     public void onChipNavigationBarSelected(int id){
         switch (id){
             case R.id.home:

@@ -5,15 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Activity.ui.LoveFragment"
-    android:background="@color/white">
-
-    <ImageView
-        android:id="@+id/imgBgHome"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/background_default"
-        android:scaleType="centerCrop"
-        android:visibility="visible"/>
+    android:background="#00ffffff">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -21,21 +13,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           android:text="LOVE DAYS"
-            android:textColor="@color/red_custom"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.03"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"/>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
 
             <TextView
                 android:id="@+id/txtViewYear"
@@ -49,7 +30,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/txtViewMonth"
-                android:layout_marginStart="48dp"/>
+                android:layout_marginStart="20dp"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,7 +42,8 @@
                 android:layout_marginTop="4dp"
                 android:text="Năm"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:id="@+id/txtViewMonth"
@@ -73,7 +56,8 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txtViewYear"
-                app:layout_constraintEnd_toStartOf="@id/txtViewWeek"/>
+                app:layout_constraintEnd_toStartOf="@id/txtViewWeek"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +68,8 @@
                 android:layout_marginTop="4dp"
                 android:text="Tháng"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:id="@+id/txtViewWeek"
@@ -97,7 +82,8 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txtViewMonth"
-                app:layout_constraintEnd_toStartOf="@id/txtViewDay"/>
+                app:layout_constraintEnd_toStartOf="@id/txtViewDay"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,7 +94,8 @@
                 android:layout_marginTop="4dp"
                 android:text="Tuần"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:id="@+id/txtViewDay"
@@ -121,7 +108,8 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txtViewWeek"
-                app:layout_constraintEnd_toStartOf="@id/txtViewHour"/>
+                app:layout_constraintEnd_toStartOf="@id/txtViewHour"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,7 +120,8 @@
                 android:layout_marginTop="4dp"
                 android:text="Ngày"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:id="@+id/txtViewHour"
@@ -145,7 +134,8 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txtViewDay"
-                app:layout_constraintEnd_toStartOf="@id/txtViewMinute"/>
+                app:layout_constraintEnd_toStartOf="@id/txtViewMinute"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -156,7 +146,8 @@
                 android:layout_marginTop="4dp"
                 android:text="Giờ"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="serif"/>
 
 
             <TextView
@@ -170,7 +161,8 @@
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txtViewHour"
-                app:layout_constraintEnd_toStartOf="@id/txtViewSecond"/>
+                app:layout_constraintEnd_toStartOf="@id/txtViewSecond"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,7 +173,8 @@
                 android:layout_marginTop="4dp"
                 android:text="Phút"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:id="@+id/txtViewSecond"
@@ -195,7 +188,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/txtViewMinute"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="48dp"/>
+                android:layout_marginEnd="20dp"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -206,7 +200,8 @@
                 android:layout_marginTop="4dp"
                 android:text="Giây"
                 android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:fontFamily="serif"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -231,7 +226,8 @@
                 android:background="@drawable/bg_days"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:shadowColor="@color/pink_custom"/>
+                android:shadowColor="@color/pink_custom"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -244,7 +240,8 @@
                 android:text="Đang yêu"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:elevation="8dp"/>
+                android:elevation="8dp"
+                android:fontFamily="serif"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -257,7 +254,8 @@
                 android:text="ngày"
                 android:elevation="8dp"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:fontFamily="serif"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -266,7 +264,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
-            android:paddingBottom="32dp">
+            android:paddingBottom="20dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewAvatarMale"
@@ -281,7 +279,7 @@
                     android:id="@+id/imgAvatarMale"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/avatar"
+                    android:src="@drawable/avatar_male_default"
                     android:scaleType="centerCrop"/>
 
                 <ImageView
@@ -311,7 +309,8 @@
                     android:paddingBottom="1dp"
                     android:text="21"
                     android:textSize="12sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:fontFamily="serif"/>
 
             </androidx.cardview.widget.CardView>
             
@@ -326,7 +325,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:text="Trần Văn Ân"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:fontFamily="serif"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -365,7 +365,8 @@
                     android:text="Thiên Bình"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:fontFamily="serif"/>
 
             </LinearLayout>
 
@@ -393,7 +394,7 @@
                     android:id="@+id/imgAvatarFemale"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/avatar_female"
+                    android:src="@drawable/avatar_female_default"
                     android:scaleType="centerCrop"/>
 
                 <ImageView
@@ -423,7 +424,8 @@
                     android:paddingBottom="1dp"
                     android:text="20"
                     android:textSize="12sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:fontFamily="serif"/>
 
             </androidx.cardview.widget.CardView>
 
@@ -438,7 +440,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:text="Nguyễn Thị Mai Anh"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:fontFamily="serif"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -477,7 +480,8 @@
                     android:text="Cự Giải"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:fontFamily="serif"/>
 
             </LinearLayout>
 
