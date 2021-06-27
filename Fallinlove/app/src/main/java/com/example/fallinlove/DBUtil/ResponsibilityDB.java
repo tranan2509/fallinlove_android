@@ -7,8 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.fallinlove.Model.Responsibility;
 import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.DateProvider;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ResponsibilityDB extends DatabaseHandler{
@@ -105,6 +109,56 @@ public class ResponsibilityDB extends DatabaseHandler{
         return responsibilities;
     }
 
+    public List<Responsibility> gets(User user, int type){
+        List<Responsibility> responsibilities = new ArrayList<Responsibility>();
+        String query = "SELECT * FROM " + TABLE_RESPONSIBILITY + " WHERE " + KEY_USER_ID + "=" + user.getId() + " AND " + KEY_TYPE  + "=" + type + " ORDER BY datetime(date) ASC";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            do {
+                Responsibility responsibility = new Responsibility(cursor);
+                responsibilities.add(responsibility);
+            }while (cursor.moveToNext());
+        }
+        return responsibilities;
+    }
+
+    public List<Responsibility> getsSorted(User user, int type){
+        List<Responsibility> responsibilities = gets(user, type);
+        List<Responsibility> outOfDate_unchecked = new ArrayList<Responsibility>();
+        List<Responsibility> expiryDate_unchecked = new ArrayList<Responsibility>();
+        List<Responsibility> outOfDate_checked = new ArrayList<Responsibility>();
+        List<Responsibility> expiryDate_checked = new ArrayList<Responsibility>();
+
+        for (Responsibility responsibility: responsibilities){
+            Date date = null;
+            try {
+                date = DateProvider.datetimeFormat.parse(responsibility.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            if (date.getTime() > cal.getTime().getTime()){
+                if (!responsibility.isState()){
+                    outOfDate_unchecked.add(responsibility);
+                }else{
+                    outOfDate_checked.add(responsibility);
+                }
+            }else{
+                if (!responsibility.isState()){
+                    expiryDate_unchecked.add(responsibility);
+                }else{
+                    expiryDate_checked.add(responsibility);
+                }
+            }
+        }
+        List<Responsibility> newResponsibilities = new ArrayList<Responsibility>(outOfDate_unchecked);
+        newResponsibilities.addAll(expiryDate_unchecked);
+        newResponsibilities.addAll(outOfDate_checked);
+        newResponsibilities.addAll(expiryDate_checked);
+        return newResponsibilities;
+    }
+
     public int update(Responsibility responsibility){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -115,6 +169,35 @@ public class ResponsibilityDB extends DatabaseHandler{
         values.put(KEY_LEVEL, responsibility.getLevel());
         values.put(KEY_STATE, responsibility.isState());
         return db.update(TABLE_RESPONSIBILITY, values, KEY_ID + "=?", new String[]{String.valueOf(responsibility.getId())});
+    }
+
+    public void updateDaily(Responsibility responsibility){
+        Calendar cal = Calendar.getInstance();
+        String now = DateProvider.datetimeFormat.format(cal.getTime());
+        String newDate = now.split(" ")[0] + " " + responsibility.getDate().split(" ")[1];
+        responsibility.setDate(newDate);
+        update(responsibility);
+    }
+
+    public void updateAllDaily(User user){
+        List<Responsibility> responsibilities = gets(user);
+        if (responsibilities != null && responsibilities.size() > 0){
+            Calendar cal = Calendar.getInstance();
+            String now = DateProvider.dateFormat.format(cal.getTime());
+            Responsibility responsibility = responsibilities.get(0);
+            String date = responsibility.getDate().split(" ")[0];
+            try {
+                if (DateProvider.dateFormat.parse(now).getTime() > DateProvider.dateFormat.parse(date).getTime()){
+                    List<Responsibility> responsibilitiesDailies = gets(user, 1);
+                    for (Responsibility responsibilityDaily: responsibilitiesDailies){
+                        responsibilityDaily.setState(false);
+                        updateDaily(responsibilityDaily);
+                    }
+                }
+            }catch (Exception ex){
+
+            }
+        }
     }
 
     public void delete(Responsibility responsibility){

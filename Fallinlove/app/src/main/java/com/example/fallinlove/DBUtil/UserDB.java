@@ -53,7 +53,7 @@ public class UserDB extends DatabaseHandler{
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USER, new String[]{KEY_ID, KEY_MESSAGE, KEY_LOVED_DATE, KEY_CREATED_DATE, KEY_STATE},
                 KEY_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
+        if (cursor != null && cursor.getCount() > 0)
             cursor.moveToFirst();
         else
             return null;

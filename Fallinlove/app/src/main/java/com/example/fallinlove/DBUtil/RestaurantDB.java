@@ -7,8 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.fallinlove.Model.Restaurant;
 import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.DateProvider;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class RestaurantDB extends DatabaseHandler {
@@ -95,6 +97,23 @@ public class RestaurantDB extends DatabaseHandler {
     public List<Restaurant> gets(User user){
         List<Restaurant> restaurants = new ArrayList<Restaurant>();
         String query = "SELECT * FROM " + TABLE_RESTAURANT + " WHERE " + KEY_USER_ID + "=" + user.getId();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()){
+            do {
+                Restaurant restaurant = new Restaurant(cursor);
+                restaurants.add(restaurant);
+            }while (cursor.moveToNext());
+        }
+        return restaurants;
+    }
+
+    public List<Restaurant> getsInTime(User user){
+        Calendar calendar = Calendar.getInstance();
+        String time = DateProvider.timeFormat.format(calendar.getTime());
+        List<Restaurant> restaurants = new ArrayList<Restaurant>();
+        String query = "SELECT * FROM " + TABLE_RESTAURANT + " WHERE " + KEY_USER_ID + "=" + user.getId() + "" +
+                " AND time('" + time + "') BETWEEN time(" + KEY_TIME_START + ") AND time(" + KEY_TIME_END + ")";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.moveToFirst()){

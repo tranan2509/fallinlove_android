@@ -2,20 +2,35 @@ package com.example.fallinlove.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.example.fallinlove.Adapter.RestaurantRecyclerViewAdapter;
 import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.DBUtil.RestaurantDB;
 import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
+import com.example.fallinlove.Model.Restaurant;
 import com.example.fallinlove.Model.User;
 import com.example.fallinlove.Provider.ImageConvert;
 import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
+import java.util.List;
+import java.util.Random;
+
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class RestaurantActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -23,11 +38,22 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
     User user;
     ImageSetting imageSetting;
     DisplaySetting displaySetting;
+    public static List<Restaurant> restaurants;
+    Restaurant restaurantRandom;
+    List<Restaurant> restaurantsFilter;
 
+    RestaurantRecyclerViewAdapter restaurantRecyclerViewAdapter;
+
+    RecyclerView recyclerViewRestaurant;
     ChipNavigationBar chipNavigationBar;
-    Intent intentBottom;
+    Intent intentBottom, intentNext;
 
+    FloatingActionButton btnAdd;
     ImageView imgBgHome;
+
+    Button btnStart;
+    EditText txtName;
+    CheckBox ckbNew, ckbInTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,27 +75,83 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         user = (User) SharedPreferenceProvider.getInstance(this).get("user");
         imageSetting = ImageSettingDB.getInstance(this).get(user);
         displaySetting = DisplaySettingDB.getInstance(this).get(user);
+        restaurants = RestaurantDB.getInstance(this).gets(user);
     }
 
 
     public void getView(){
         chipNavigationBar = findViewById(R.id.chipNavigationBar);
+        recyclerViewRestaurant = findViewById(R.id.recyclerViewRestaurant);
         imgBgHome = findViewById(R.id.imgBgHome);
+        btnAdd = findViewById(R.id.btnAdd);
+        txtName = findViewById(R.id.txtName);
+        btnStart = findViewById(R.id.btnStart);
+        ckbInTime = findViewById(R.id.ckbInTime);
+        ckbNew = findViewById(R.id.ckbNew);
     }
 
     public void setView(){
-
+        RestaurantRecyclerViewAdapter.restaurantRandom = null;
         chipNavigationBar.setItemSelected(R.id.restaurant, true);
         imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
+        loadRecycleView(restaurants);
     }
 
     public void setOnClick(){
         chipNavigationBar.setOnItemSelectedListener(id -> {
             onChipNavigationBarSelected(id);
         });
+        btnAdd.setOnClickListener(this);
+        btnStart.setOnClickListener(this);
     }
 
     public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btnAdd:
+                intentNext = new Intent(getApplicationContext(), FunctionRestaurantActivity.class);
+                intentNext.putExtra("function", "add");
+                startActivity(intentNext);
+                break;
+            case R.id.btnStart:
+                start();
+                break;
+        }
+    }
+
+    private void start() {
+
+        if (restaurants == null || restaurants.size() == 0)
+            return;
+        restaurantsFilter = restaurants;
+        restaurantRandom = new Restaurant();
+        boolean isNew = ckbNew.isChecked();
+        boolean isInTime = ckbInTime.isChecked();
+        if (isInTime){
+            restaurantsFilter = RestaurantDB.getInstance(RestaurantActivity.this).getsInTime(user);
+        }
+        if (isNew) {
+            for (Restaurant restaurant : restaurantsFilter) {
+                if (restaurant.getCount() > 0)
+                    restaurantsFilter.remove(restaurant);
+            }
+        }
+        Random random = new Random();
+        new CountDownTimer(6000, 100) {
+            public void onTick(long millisUntilFinished) {
+
+                int position =  random.nextInt(restaurantsFilter.size());
+                restaurantRandom = restaurantsFilter.get(position);
+                txtName.setText(restaurantRandom.getName());
+
+                RestaurantRecyclerViewAdapter.restaurantRandom = restaurantRandom;
+                loadRecycleView(restaurants);
+            }
+
+            public void onFinish() {
+
+            }
+
+        }.start();
 
     }
 
@@ -98,5 +180,13 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
                 overridePendingTransition(0,0);
                 break;
         }
+    }
+
+    public void loadRecycleView(List<Restaurant> restaurants){
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        recyclerViewRestaurant.setLayoutManager(staggeredGridLayoutManager);
+        restaurantRecyclerViewAdapter = new RestaurantRecyclerViewAdapter(restaurants);
+        recyclerViewRestaurant.setAdapter(restaurantRecyclerViewAdapter);
+        recyclerViewRestaurant.setItemAnimator(new SlideInUpAnimator());
     }
 }

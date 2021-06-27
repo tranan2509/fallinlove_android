@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/home"
-        android:title="Home"
+        android:title="Trang chủ"
         android:icon="@drawable/ic_baseline_home_24"
         app:cnb_backgroundColor="#faf9ff"
         app:cnb_iconColor="@color/pink_custom"
@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/responsibility"
-        android:title="Responsibility"
+        android:title="Nhiệm vụ"
         android:icon="@drawable/ic_baseline_assignment_24"
         app:cnb_backgroundColor="#faf9ff"
         app:cnb_iconColor="@color/pink_custom"
@@ -21,7 +21,7 @@
 
     <item
         android:id="@+id/anniversary"
-        android:title="Anniversary"
+        android:title="Kỉ niệm"
         android:icon="@drawable/ic_baseline_date_range_24"
         app:cnb_backgroundColor="#faf9ff"
         app:cnb_iconColor="@color/pink_custom"
@@ -29,7 +29,7 @@
 
     <item
         android:id="@+id/restaurant"
-        android:title="Restaurant"
+        android:title="Quán ăn"
         android:icon="@drawable/ic_baseline_restaurant_menu_24"
         app:cnb_backgroundColor="#faf9ff"
         app:cnb_iconColor="@color/pink_custom"
@@ -37,7 +37,7 @@
 
     <item
         android:id="@+id/setting"
-        android:title="Setting"
+        android:title="Cài đặt"
         android:icon="@drawable/ic_baseline_settings_24"
         app:cnb_backgroundColor="#faf9ff"
         app:cnb_iconColor="@color/pink_custom"

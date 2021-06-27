@@ -22,9 +22,102 @@
         android:layout_marginBottom="80dp"
         android:layout_marginTop="20dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
+
+               <EditText
+                   android:id="@+id/txtName"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1"
+                   android:background="@drawable/bg_input_text_full_border"
+                   android:paddingLeft="16dp"
+                   android:paddingRight="16dp"
+                   android:paddingTop="12dp"
+                   android:paddingBottom="12dp"
+                   android:textSize="20sp"
+                   android:textColor="@color/black"
+                   android:fontFamily="serif"
+                   android:hint="Tên quán ăn"
+                   android:enabled="false"/>
+
+               <Button
+                   android:id="@+id/btnStart"
+                   android:layout_width="wrap_content"
+                   android:layout_height="match_parent"
+                   android:background="@drawable/bg_btn_go"
+                   android:fontFamily="serif"
+                   android:text="Bắt đầu"
+                   android:layout_marginLeft="16dp"
+                   android:textSize="20sp"
+                   android:paddingLeft="16dp"
+                   android:paddingRight="16dp"
+                   android:textColor="@color/white"
+                   android:textAllCaps="false"/>
+           </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <CheckBox
+                    android:id="@+id/ckbNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:fontFamily="serif"
+                    android:checked="true"
+                    android:text="Quán ăn mới"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"/>
+
+                <CheckBox
+                    android:id="@+id/ckbInTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:checked="true"
+                    android:text="Trong thời gian bán"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewRestaurant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toTopOf="@id/chipNavigationBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/purple_custom"
+        android:layout_marginEnd="40dp"/>
 
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/chipNavigationBar"

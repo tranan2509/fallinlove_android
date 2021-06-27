@@ -302,7 +302,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardViewAvatarMale"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="160dp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -313,7 +313,7 @@
                             android:id="@+id/imgAvatarMale"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/avatar"
+                            android:src="@drawable/avatar_male_default"
                             android:scaleType="centerCrop"/>
 
                     </androidx.cardview.widget.CardView>
@@ -422,7 +422,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardViewAvatarFemale"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="160dp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -433,7 +433,7 @@
                             android:id="@+id/imgAvatarFemale"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/avatar_female"
+                            android:src="@drawable/avatar_female_default"
                             android:scaleType="centerCrop"/>
 
                     </androidx.cardview.widget.CardView>
@@ -634,7 +634,7 @@
                 android:minHeight="80dp"
                 android:text="Gửi em,\nChúng ta đã có khoảng thời gian bên nhau thật hạnh phúc, cảm ơn em đã đến bên anh
                 \nYêu em, người anh yêu nhất!"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
                 android:paddingLeft="16dp"

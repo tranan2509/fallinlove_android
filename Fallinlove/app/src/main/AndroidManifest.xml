@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -23,7 +25,8 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fallinlove">
-        <activity android:name=".Activity.AppInfoActivity"></activity>
+        <activity android:name=".Activity.FunctionRestaurantActivity"></activity>
+        <activity android:name=".Activity.AppInfoActivity" />
         <activity android:name=".Activity.ViewImageActivity" />
         <activity android:name=".Activity.SplashActivity">
             <intent-filter>
@@ -39,12 +42,15 @@
         <activity android:name=".Activity.RestaurantActivity" />
         <activity android:name=".Activity.AnniversaryActivity" />
         <activity android:name=".Activity.ResponsibilityActivity" />
-        <activity android:name=".Activity.SettingActivity" >
+        <activity android:name=".Activity.SettingActivity">
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"/>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="message/rfc822"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="message/rfc822" />
             </intent-filter>
         </activity>
         <activity android:name=".Activity.HomeActivity" />

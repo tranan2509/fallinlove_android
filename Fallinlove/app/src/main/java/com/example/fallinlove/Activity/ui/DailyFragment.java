@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fallinlove.Adapter.ResponsibilityRecyclerViewAdapter;
+import com.example.fallinlove.DBUtil.ResponsibilityDB;
+import com.example.fallinlove.Model.Responsibility;
+import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
@@ -66,8 +68,9 @@ public class DailyFragment extends Fragment {
         }
     }
 
+    public static User user;
     public static RecyclerView recyclerViewResponsibility;
-    public static List<String> responsibilities;
+    public static List<Responsibility> responsibilities;
     public static ResponsibilityRecyclerViewAdapter responsibilityRecyclerViewAdapter;
 
     @Override
@@ -76,10 +79,16 @@ public class DailyFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_daily, container, false);
 
+        getModel(mView);
         getViewFragment(mView);
         setView(mView);
 
         return mView;
+    }
+
+    public void getModel(View mView){
+        user = (User) SharedPreferenceProvider.getInstance(mView.getContext()).get("user");
+        responsibilities = ResponsibilityDB.getInstance(mView.getContext()).getsSorted(user, 1);
     }
 
     public void getViewFragment(View view){
@@ -87,17 +96,10 @@ public class DailyFragment extends Fragment {
     }
 
     public void setView(View view){
-        loadRecycleView();
+        loadRecycleView(responsibilities);
     }
 
-    public static void loadRecycleView(){
-        responsibilities = new ArrayList<String>();
-        Random random = new Random();
-        int size = random.nextInt(6) + 1;
-        for (int i = 0; i < size; i++) {
-            responsibilities.add("1");
-        }
-
+    public static void loadRecycleView(List<Responsibility> responsibilities){
         if (responsibilities != null) {
             responsibilityRecyclerViewAdapter = new ResponsibilityRecyclerViewAdapter(responsibilities);
             recyclerViewResponsibility.setAdapter(responsibilityRecyclerViewAdapter);

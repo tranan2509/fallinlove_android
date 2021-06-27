@@ -7,6 +7,7 @@ public class DateProvider {
 
     public static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     public static DateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    public static DateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
     //Convert yyyy-MM-dd to dd/MM/yyyy
     public static String convertDateSqliteToPerson(String date){

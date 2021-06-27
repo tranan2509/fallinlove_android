@@ -1,12 +1,17 @@
 package com.example.fallinlove.Activity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -17,9 +22,12 @@ import com.example.fallinlove.Activity.ui.ResponsibilityFragment;
 import com.example.fallinlove.Adapter.StringSpinnerAdapter;
 import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
+import com.example.fallinlove.DBUtil.ResponsibilityDB;
 import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
+import com.example.fallinlove.Model.Responsibility;
 import com.example.fallinlove.Model.User;
+import com.example.fallinlove.Provider.DateProvider;
 import com.example.fallinlove.Provider.ImageConvert;
 import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
@@ -28,6 +36,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+
+import java.util.Calendar;
 
 public class ResponsibilityActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -73,6 +83,8 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
         user = (User) SharedPreferenceProvider.getInstance(this).get("user");
         imageSetting = ImageSettingDB.getInstance(this).get(user);
         displaySetting = DisplaySettingDB.getInstance(this).get(user);
+
+        ResponsibilityDB.getInstance(this).updateAllDaily(user);
     }
 
     public void getView(){
@@ -170,21 +182,53 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
     }
 
     public void showDialog(View view, String type){
-        typeResponsibility = new String[]{"Hàng ngày", "Trách nhiệm"};
+        typeResponsibility = new String[]{"Hàng ngày", "Nhiệm vụ"};
         level = new String[]{"Bình thường", "Quan trọng", "Rất quan trọng"};
 
         bottomSheetDialog = new BottomSheetDialog(view.getContext(), R.style.BottomSheetDialogTheme);
         bottomSheetView = LayoutInflater.from(view.getContext())
                 .inflate(R.layout.bottom_sheet_responsibility, (LinearLayout)view.findViewById(R.id.btnSheetContainer));
+
+        EditText txtName = bottomSheetView.findViewById(R.id.txtName);
+        EditText txtDate = bottomSheetView.findViewById(R.id.txtDate);
+        Spinner spnType = bottomSheetView.findViewById(R.id.spnType);
+        Spinner spnLevel = bottomSheetView.findViewById(R.id.spnLevel);
+
+        if (type == "add"){
+            final Calendar c = Calendar.getInstance();
+            String date = DateProvider.datetimeFormat.format(c.getTime());
+            txtDate.setText(DateProvider.convertDateTimeSqliteToPerson(date));
+        }
+
+        bottomSheetView.findViewById(R.id.btnSelectDate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDate(bottomSheetView);
+            }
+        });
         bottomSheetView.findViewById(R.id.btnSave).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DailyFragment.loadRecycleView();
-                ResponsibilityFragment.loadRecycleView();
+
+                String name = txtName.getText().toString();
+                String date = DateProvider.convertDateTimePersonToSqlite(txtDate.getText().toString());
+                int type = (int)spnType.getSelectedItemPosition() + 1;
+                int level = (int)spnLevel.getSelectedItemPosition() + 1;
+                if (type == 1){
+                    Calendar cal = Calendar.getInstance();
+                    String now = DateProvider.datetimeFormat.format(cal.getTime());
+                    date = now.split(" ")[0] + " " + date.split(" ")[1];
+                }
+
+                Responsibility responsibility = new Responsibility(user.getId(), name, date, type, level, false);
+                ResponsibilityDB.getInstance(v.getContext()).add(responsibility);
+
+                DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(v.getContext()).getsSorted(user, 1));
+                ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(v.getContext()).getsSorted(user, 2));
                 bottomSheetDialog.hide();
             }
         });
-        spnTypeResponsibilities = bottomSheetView.findViewById(R.id.spnTypeResponsibility);
+        spnTypeResponsibilities = bottomSheetView.findViewById(R.id.spnType);
         spnLevels = bottomSheetView.findViewById(R.id.spnLevel);
         setSpinner(bottomSheetView.getRootView(), typeResponsibility, level);
 
@@ -213,6 +257,53 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
         StringSpinnerAdapter stringSpinnerAdapterLevel = new StringSpinnerAdapter(view.getContext(), levels);
         spnLevels.setAdapter(stringSpinnerAdapterLevel);
         spnLevels.setSelection(0);
+    }
+
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    private String mDate, mTime, mFullTime;
+
+    public void getDate(View view){
+        selectDate(view);
+    }
+
+    public void selectDate(View view){
+//        final Calendar c = Calendar.getInstance();
+        EditText txtDate = view.findViewById(R.id.txtDate);
+        String[] fullTimes = txtDate.getText().toString().split(" ");
+        String[] dates = fullTimes[1].split("/");
+        mYear = Integer.parseInt(dates[2]);
+        mMonth = Integer.parseInt(dates[1]);
+        mDay = Integer.parseInt(dates[0]);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker mView, int year,
+                                          int monthOfYear, int dayOfMonth) {
+                        mDate = DateProvider.standardization(dayOfMonth, 2) + "/" + DateProvider.standardization(monthOfYear + 1, 2) + "/" + year;
+                        selectTime(view, fullTimes[0]);
+                    }
+                }, mYear, mMonth - 1, mDay);
+        datePickerDialog.show();
+    }
+
+    public void selectTime(View view, String time){
+        EditText txtDate = view.findViewById(R.id.txtDate);
+        String[] times = time.split(":");
+        mHour = Integer.parseInt(times[0]);
+        mMinute = Integer.parseInt(times[1]);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(),
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+                        mTime = DateProvider.standardization(hourOfDay, 2) + ":" + DateProvider.standardization(minute, 2);
+                        if (!mDate.equals("") && !mTime.equals("")){
+                            mFullTime = mTime + " " + mDate;
+                            txtDate.setText(mFullTime);
+                        }
+                    }
+                }, mHour, mMinute, false);
+        timePickerDialog.show();
     }
 
 }
