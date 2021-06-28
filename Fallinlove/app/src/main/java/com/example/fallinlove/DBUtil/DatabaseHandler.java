@@ -22,6 +22,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 "state NUMERIC)";
         db.execSQL(CREATE_USER_TABLE);
 
+        String CREATE_ACCOUNT_TABLE = "CREATE TABLE ACCOUNT (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "userId INTEGER, " +
+                "password TEXT, " +
+                "state NUMERIC)";
+        db.execSQL(CREATE_ACCOUNT_TABLE);
+
         String CREATE_PERSON_TABLE = "CREATE TABLE PERSON (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userId INTEGER, " +
@@ -31,6 +38,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 "dob NUMERIC, " +
                 "state NUMERIC)";
         db.execSQL(CREATE_PERSON_TABLE);
+
+        String CREATE_PERSON_DETAIL_TABLE = "CREATE TABLE PERSON_DETAIL (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "personId INTEGER, " +
+                "name TEXT, " +
+                "description TEXT, " +
+                "state NUMERIC)";
+        db.execSQL(CREATE_PERSON_DETAIL_TABLE);
 
         String CREATE_RESPONSIBILITY_TABLE = "CREATE TABLE RESPONSIBILITY (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -93,7 +108,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS USER");
+        db.execSQL("DROP TABLE IF EXISTS ACCOUNT");
         db.execSQL("DROP TABLE IF EXISTS PERSON");
+        db.execSQL("DROP TABLE IF EXISTS PERSON_DETAIL");
         db.execSQL("DROP TABLE IF EXISTS RESPONSIBILITY");
         db.execSQL("DROP TABLE IF EXISTS ANNIVERSARY");
         db.execSQL("DROP TABLE IF EXISTS RESTAURANT");

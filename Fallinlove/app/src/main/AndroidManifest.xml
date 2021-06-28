@@ -8,8 +8,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -25,7 +25,8 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fallinlove">
-        <activity android:name=".Activity.FunctionRestaurantActivity"></activity>
+        <activity android:name=".Activity.InfoCoupleActivity"></activity>
+        <activity android:name=".Activity.FunctionRestaurantActivity" />
         <activity android:name=".Activity.AppInfoActivity" />
         <activity android:name=".Activity.ViewImageActivity" />
         <activity android:name=".Activity.SplashActivity">

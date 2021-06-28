@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="24dp"
+    android:layout_marginBottom="16dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:cardCornerRadius="1000dp">
+
+            <ImageView
+                android:id="@+id/imgViewAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/avatar_male_default"/>
+
+            <ImageView
+                android:id="@+id/imgViewBorder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/bg_border_rounded_purple"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_input_text_full_border"
+            android:gravity="center_horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="serif"
+            android:hint="Tên bạn nam"
+            android:text="Tên bạn nam"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <EditText
+                android:id="@+id/txtDob"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_input_text_full_border"
+                android:gravity="center_horizontal"
+                android:enabled="false"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:fontFamily="serif"
+                android:hint="dd/mm/yyyy"
+                android:text="25/09/2000"/>
+
+            <ImageView
+                android:id="@+id/btnSelectDate"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:layout_constraintTop_toTopOf="@id/txtDob"
+                app:layout_constraintBottom_toBottomOf="@id/txtDob"
+                app:layout_constraintRight_toRightOf="@id/txtDob"
+                android:layout_marginRight="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_baseline_date_range_24"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

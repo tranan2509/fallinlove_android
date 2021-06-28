@@ -2,19 +2,24 @@ package com.example.fallinlove.Provider;
 
 import android.content.Context;
 
+import com.example.fallinlove.DBUtil.AccountDB;
 import com.example.fallinlove.DBUtil.BackgroundDB;
 import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
 import com.example.fallinlove.DBUtil.PersonDB;
+import com.example.fallinlove.DBUtil.PersonDetailDB;
 import com.example.fallinlove.DBUtil.UserDB;
+import com.example.fallinlove.Model.Account;
 import com.example.fallinlove.Model.Background;
 import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.Person;
+import com.example.fallinlove.Model.PersonDetail;
 import com.example.fallinlove.Model.User;
 import com.example.fallinlove.R;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class DataInitialization {
 
@@ -37,7 +42,9 @@ public class DataInitialization {
 
     public void insertAllData(User user){
         insertUser(user);
+        insertAccount(user);
         insertPerson(user);
+        insertPersonDetail(user);
         insertImageSetting(user);
         insertDisplaySetting(user);
         insertBackground(user);
@@ -45,6 +52,11 @@ public class DataInitialization {
 
     public void insertUser(User user){
         UserDB.getInstance(context).add(user);
+    }
+
+    public void insertAccount(User user){
+        Account account = new Account(user.getId(), "", false);
+        AccountDB.getInstance(context).add(account);
     }
 
     public void insertPerson(User user){
@@ -58,6 +70,20 @@ public class DataInitialization {
         Person female = new Person(user.getId(), "Tên bạn nữ", avatarFemale, false, dobFemale, true);
         PersonDB.getInstance(context).add(male);
         PersonDB.getInstance(context).add(female);
+    }
+
+    public void insertPersonDetail(User user){
+        List<Person> persons = PersonDB.getInstance(context).gets(user);
+        Person male = persons.get(0);
+        Person female = persons.get(1);
+        PersonDetail maleDetail = new PersonDetail(male.getId(), "Thông tin cơ bản", "Chiều cao\nCân nặng\n...", true);
+        PersonDetail maleDetailHobbit = new PersonDetail(male.getId(), "Sở thích", "Bóng đá\nChơi game\n...", true);
+        PersonDetail femaleDetail = new PersonDetail(female.getId(), "Thông tin cơ bản", "Chiều cao\nCân nặng\n...", true);
+        PersonDetail femaleDetailHobbit = new PersonDetail(female.getId(), "Sở thích", "Đọc sách\nNghe nhạc\n...", true);
+        PersonDetailDB.getInstance(context).add(maleDetail);
+        PersonDetailDB.getInstance(context).add(maleDetailHobbit);
+        PersonDetailDB.getInstance(context).add(femaleDetail);
+        PersonDetailDB.getInstance(context).add(femaleDetailHobbit);
     }
 
     public void insertImageSetting(User user){

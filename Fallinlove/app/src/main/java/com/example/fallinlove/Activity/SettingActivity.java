@@ -103,7 +103,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 showDialog(view);
                 break;
             case R.id.btnEdit:
-
+                intentNext = new Intent(getApplicationContext(), InfoCoupleActivity.class);
+                startActivity(intentNext);
                 break;
             case R.id.btnImage:
                 intentNext = new Intent(getApplicationContext(), BackgroundActivity.class);
