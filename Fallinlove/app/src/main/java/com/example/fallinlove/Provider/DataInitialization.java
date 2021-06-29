@@ -76,10 +76,10 @@ public class DataInitialization {
         List<Person> persons = PersonDB.getInstance(context).gets(user);
         Person male = persons.get(0);
         Person female = persons.get(1);
-        PersonDetail maleDetail = new PersonDetail(male.getId(), "Thông tin cơ bản", "Chiều cao\nCân nặng\n...", true);
-        PersonDetail maleDetailHobbit = new PersonDetail(male.getId(), "Sở thích", "Bóng đá\nChơi game\n...", true);
-        PersonDetail femaleDetail = new PersonDetail(female.getId(), "Thông tin cơ bản", "Chiều cao\nCân nặng\n...", true);
-        PersonDetail femaleDetailHobbit = new PersonDetail(female.getId(), "Sở thích", "Đọc sách\nNghe nhạc\n...", true);
+        PersonDetail maleDetail = new PersonDetail(male.getId(), "Thông tin cơ bản", "Chiều cao\nCân nặng\nSize giày\n...", true);
+        PersonDetail maleDetailHobbit = new PersonDetail(male.getId(), "Sở thích", "...", true);
+        PersonDetail femaleDetail = new PersonDetail(female.getId(), "Thông tin cơ bản", "Chiều cao\nCân nặng\nSize giày\n...", true);
+        PersonDetail femaleDetailHobbit = new PersonDetail(female.getId(), "Sở thích", "...", true);
         PersonDetailDB.getInstance(context).add(maleDetail);
         PersonDetailDB.getInstance(context).add(maleDetailHobbit);
         PersonDetailDB.getInstance(context).add(femaleDetail);

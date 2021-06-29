@@ -12,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.fallinlove.DBUtil.AccountDB;
 import com.example.fallinlove.DBUtil.DisplaySettingDB;
 import com.example.fallinlove.DBUtil.ImageSettingDB;
 import com.example.fallinlove.DBUtil.UserDB;
+import com.example.fallinlove.Model.Account;
 import com.example.fallinlove.Model.DisplaySetting;
 import com.example.fallinlove.Model.ImageSetting;
 import com.example.fallinlove.Model.User;
@@ -32,12 +35,14 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     User user;
     ImageSetting imageSetting;
     DisplaySetting displaySetting;
+    Account account;
 
     //Element of view
     ChipNavigationBar chipNavigationBar;
     Intent intentBottom, intentNext;
-    Button btnDisplay, btnImage, btnEdit, btnSelectDate, btnReport, btnAppInfo;
+    Button btnDisplay, btnImage, btnEdit, btnSelectDate, btnReport, btnAppInfo, btnLock;
     ImageView imgBgHome;
+    SwitchCompat switchLock;
 
     //Dialog message
     BottomSheetDialog bottomSheetDialog;
@@ -66,6 +71,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         user = (User)SharedPreferenceProvider.getInstance(this).get("user");
         imageSetting = ImageSettingDB.getInstance(this).get(user);
         displaySetting = DisplaySettingDB.getInstance(this).get(user);
+        account = AccountDB.getInstance(this).get(user);
     }
 
     public void getView(){
@@ -77,11 +83,14 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         btnSelectDate = findViewById(R.id.btnSelectDate);
         btnReport = findViewById(R.id.btnReport);
         btnAppInfo = findViewById(R.id.btnAppInfo);
+        btnLock = findViewById(R.id.btnLock);
+        switchLock = findViewById(R.id.switchLock);
     }
 
     public void setView(){
         chipNavigationBar.setItemSelected(R.id.setting, true);
         imgBgHome.setImageBitmap(ImageConvert.ArrayByteToBitmap(imageSetting.getBackground()));
+        switchLock.setChecked(account.isState());
     }
 
     public void setOnClick(){
@@ -95,6 +104,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         btnSelectDate.setOnClickListener(this);
         btnReport.setOnClickListener(this);
         btnAppInfo.setOnClickListener(this);
+        btnLock.setOnClickListener(this);
     }
 
     public void onClick(View view){
@@ -120,6 +130,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.btnAppInfo:
                 intentNext = new Intent(getApplicationContext(), AppInfoActivity.class);
                 startActivity(intentNext);
+                break;
+            case R.id.btnLock:
+                boolean isLock = switchLock.isChecked();
+                switchLock.setChecked(!isLock);
+                account.setState(!isLock);
+                AccountDB.getInstance(this).update(account);
                 break;
         }
     }

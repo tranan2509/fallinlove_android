@@ -53,6 +53,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:background="@drawable/bg_btn_setting"
+                    android:fontFamily="serif"
                     android:text="Cài đặt ngày yêu"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
@@ -69,6 +70,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:background="@drawable/bg_btn_setting"
+                    android:fontFamily="serif"
                     android:text="Thông tin cặp đôi"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
@@ -106,6 +108,7 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:background="@drawable/bg_btn_setting"
+                android:fontFamily="serif"
                 android:text="Hình nền"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="20dp"
@@ -122,6 +125,7 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:background="@drawable/bg_btn_setting"
+                android:fontFamily="serif"
                 android:text="Hiển thị"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="20dp"
@@ -152,6 +156,44 @@
                     android:letterSpacing="0.03"
                     android:fontFamily="serif"/>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <Button
+                        android:id="@+id/btnLock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="Mật khẩu ứng dụng"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:background="@drawable/bg_btn_setting"
+                        android:fontFamily="serif"
+                        android:layout_weight="1"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:drawableLeft="@drawable/ic_baseline_lock_24"
+                        android:drawablePadding="8dp"
+                        android:textAllCaps="false"/>
+
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchLock"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="@id/btnLock"
+                        app:layout_constraintBottom_toBottomOf="@id/btnLock"
+                        app:layout_constraintRight_toRightOf="@id/btnLock"
+                        android:layout_marginRight="12dp"
+                        android:background="#00ffffff"
+                        android:checked="true"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <Button
                     android:id="@+id/btnReport"
                     android:layout_width="match_parent"
@@ -159,6 +201,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:background="@drawable/bg_btn_setting"
+                    android:fontFamily="serif"
                     android:text="Phản hồi ứng dụng"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
@@ -175,6 +218,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:background="@drawable/bg_btn_setting"
+                    android:fontFamily="serif"
                     android:text="Thông tin ứng dụng"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"

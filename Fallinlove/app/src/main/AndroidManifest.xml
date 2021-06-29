@@ -25,7 +25,7 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fallinlove">
-        <activity android:name=".Activity.InfoCoupleActivity"></activity>
+        <activity android:name=".Activity.InfoCoupleActivity" />
         <activity android:name=".Activity.FunctionRestaurantActivity" />
         <activity android:name=".Activity.AppInfoActivity" />
         <activity android:name=".Activity.ViewImageActivity" />

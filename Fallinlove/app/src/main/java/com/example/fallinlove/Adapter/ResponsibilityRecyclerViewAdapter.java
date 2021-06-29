@@ -9,14 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +26,8 @@ import com.example.fallinlove.Provider.DateProvider;
 import com.example.fallinlove.Provider.SharedPreferenceProvider;
 import com.example.fallinlove.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -92,6 +90,7 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
                 Date date = DateProvider.datetimeFormat.parse(responsibility.getDate());
                 Calendar cal = Calendar.getInstance();
                 int position = responsibility.getLevel() - 1;
+                assert date != null;
                 if (date.getTime() < cal.getTime().getTime()){
                     position = backgroundColors.length - 1;
                 }
@@ -103,13 +102,13 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
 
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View cartView = inflater.inflate(R.layout.responsibility_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(cartView);
-        return viewHolder;
+        return new ViewHolder(cartView);
     }
 
     @Override
@@ -118,27 +117,18 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
         Responsibility responsibility = responsibilities.get(position);
         holder.setView(holder, responsibility);
 
-        holder.ckbState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Responsibility oldResponsibility = responsibility;
-                responsibility.setState(holder.ckbState.isChecked());
-                if (responsibility.getType() == Responsibility.TYPE_DAILY){
-                    DailyFragment.move(oldResponsibility, responsibility);
-                }else{
-                    ResponsibilityFragment.move(oldResponsibility, responsibility);
-                }
+        holder.ckbState.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            responsibility.setState(holder.ckbState.isChecked());
+            if (responsibility.getType() == Responsibility.TYPE_DAILY){
+                DailyFragment.move(responsibility, responsibility);
+            }else{
+                ResponsibilityFragment.move(responsibility, responsibility);
+            }
 //                ResponsibilityDB.getInstance(holder.itemView.getContext()).update(responsibility);
 //                DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(holder.itemView.getContext()).getsSorted(user, 1));
 //                ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(holder.itemView.getContext()).getsSorted(user, 2));
-            }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog(v, responsibility, "edit");
-            }
-        });
+        holder.itemView.setOnClickListener(v -> showDialog(v, responsibility, "edit"));
     }
 
     public void showDialog(View view, Responsibility responsibility, String type){
@@ -147,7 +137,7 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
 
         bottomSheetDialog = new BottomSheetDialog(view.getContext(), R.style.BottomSheetDialogTheme);
         bottomSheetView = LayoutInflater.from(view.getContext())
-                .inflate(R.layout.bottom_sheet_responsibility, (LinearLayout)view.findViewById(R.id.btnSheetContainer));
+                .inflate(R.layout.bottom_sheet_responsibility, view.findViewById(R.id.btnSheetContainer));
         spnTypeResponsibilities = bottomSheetView.findViewById(R.id.spnType);
         spnLevels = bottomSheetView.findViewById(R.id.spnLevel);
         setSpinner(bottomSheetView.getRootView(), typeResponsibility, level);
@@ -157,41 +147,27 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
         Button btnEdit = bottomSheetView.findViewById(R.id.btnEdit);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                edit(bottomSheetView, responsibility);
-                bottomSheetDialog.hide();
-            }
+        btnEdit.setOnClickListener(v -> {
+            edit(bottomSheetView, responsibility);
+            bottomSheetDialog.hide();
         });
-        bottomSheetView.findViewById(R.id.btnDelete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                delete(bottomSheetView, responsibility);
-                bottomSheetDialog.hide();
-            }
+        bottomSheetView.findViewById(R.id.btnDelete).setOnClickListener(v -> {
+            delete(bottomSheetView, responsibility);
+            bottomSheetDialog.hide();
         });
-        bottomSheetView.findViewById(R.id.btnSelectDate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDate(bottomSheetView);
-            }
-        });
-        switch (type){
-            case "add":
-                bottomSheetDialog.findViewById(R.id.btnSave).setVisibility(View.VISIBLE);
-                bottomSheetDialog.findViewById(R.id.btnEdit).setVisibility(View.GONE);
-                bottomSheetDialog.findViewById(R.id.btnDelete).setVisibility(View.GONE);
-                break;
-            default:
-                txtName.setText(responsibility.getName());
-                txtDate.setText(DateProvider.convertDateTimeSqliteToPerson(responsibility.getDate()));
-                spnLevels.setSelection(responsibility.getLevel() - 1);
-                spnTypeResponsibilities.setSelection(responsibility.getType() - 1);
-                bottomSheetDialog.findViewById(R.id.btnSave).setVisibility(View.GONE);
-                bottomSheetDialog.findViewById(R.id.btnEdit).setVisibility(View.VISIBLE);
-                bottomSheetDialog.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
-                break;
+        bottomSheetView.findViewById(R.id.btnSelectDate).setOnClickListener(v -> getDate(bottomSheetView));
+        if ("add".equals(type)) {
+            bottomSheetDialog.findViewById(R.id.btnSave).setVisibility(View.VISIBLE);
+            bottomSheetDialog.findViewById(R.id.btnEdit).setVisibility(View.GONE);
+            bottomSheetDialog.findViewById(R.id.btnDelete).setVisibility(View.GONE);
+        } else {
+            txtName.setText(responsibility.getName());
+            txtDate.setText(DateProvider.convertDateTimeSqliteToPerson(responsibility.getDate()));
+            spnLevels.setSelection(responsibility.getLevel() - 1);
+            spnTypeResponsibilities.setSelection(responsibility.getType() - 1);
+            bottomSheetDialog.findViewById(R.id.btnSave).setVisibility(View.GONE);
+            bottomSheetDialog.findViewById(R.id.btnEdit).setVisibility(View.VISIBLE);
+            bottomSheetDialog.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
         }
     }
 
@@ -212,8 +188,8 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
         EditText txtDate = view.findViewById(R.id.txtDate);
         String name = txtName.getText().toString();
         String date = txtDate.getText().toString();
-        int type = (int)spnTypeResponsibilities.getSelectedItemPosition() + 1;
-        int level = (int)spnLevels.getSelectedItemPosition() + 1;
+        int type = spnTypeResponsibilities.getSelectedItemPosition() + 1;
+        int level = spnLevels.getSelectedItemPosition() + 1;
         responsibility.setName(name);
         responsibility.setDate(DateProvider.convertDateTimePersonToSqlite(date));
         responsibility.setType(type);
@@ -249,7 +225,10 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
         ResponsibilityDB.getInstance(view.getContext()).delete(responsibility);
     }
 
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    private int mMonth;
+    private int mDay;
+    private int mHour;
+    private int mMinute;
     private String mDate, mTime, mFullTime;
 
     public void getDate(View view){
@@ -261,17 +240,13 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
         EditText txtDate = view.findViewById(R.id.txtDate);
         String[] fullTimes = txtDate.getText().toString().split(" ");
         String[] dates = fullTimes[1].split("/");
-        mYear = Integer.parseInt(dates[2]);
+        int mYear = Integer.parseInt(dates[2]);
         mMonth = Integer.parseInt(dates[1]);
         mDay = Integer.parseInt(dates[0]);
         DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(),
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker mView, int year,
-                                          int monthOfYear, int dayOfMonth) {
-                        mDate = DateProvider.standardization(dayOfMonth, 2) + "/" + DateProvider.standardization(monthOfYear + 1, 2) + "/" + year;
-                        selectTime(view, fullTimes[0]);
-                    }
+                (mView, year, monthOfYear, dayOfMonth) -> {
+                    mDate = DateProvider.standardization(dayOfMonth, 2) + "/" + DateProvider.standardization(monthOfYear + 1, 2) + "/" + year;
+                    selectTime(view, fullTimes[0]);
                 }, mYear, mMonth - 1, mDay);
         datePickerDialog.show();
     }
@@ -282,15 +257,11 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
         mHour = Integer.parseInt(times[0]);
         mMinute = Integer.parseInt(times[1]);
         TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(),
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minute) {
-                        mTime = DateProvider.standardization(hourOfDay, 2) + ":" + DateProvider.standardization(minute, 2);
-                        if (!mDate.equals("") && !mTime.equals("")){
-                            mFullTime = mTime + " " + mDate;
-                            txtDate.setText(mFullTime);
-                        }
+                (view1, hourOfDay, minute) -> {
+                    mTime = DateProvider.standardization(hourOfDay, 2) + ":" + DateProvider.standardization(minute, 2);
+                    if (!mDate.equals("")){
+                        mFullTime = mTime + " " + mDate;
+                        txtDate.setText(mFullTime);
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
