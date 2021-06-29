@@ -1,5 +1,6 @@
 package com.example.fallinlove.Activity.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ public class DailyFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static View mView;
+    public static Context context;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -79,6 +81,7 @@ public class DailyFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_daily, container, false);
 
+        context = mView.getContext();
         getModel(mView);
         getViewFragment(mView);
         setView(mView);
@@ -106,6 +109,45 @@ public class DailyFragment extends Fragment {
             recyclerViewResponsibility.setLayoutManager(new LinearLayoutManager(mView.getContext()));
             recyclerViewResponsibility.setItemAnimator(new SlideInUpAnimator());
         }
+    }
 
+    public static void move(Responsibility responsibility, Responsibility newResponsibility){
+        int fromPosition = getPosition(responsibilities, responsibility);
+        ResponsibilityDB.getInstance(context).update(newResponsibility);
+        List<Responsibility> responsibilitiesNew = ResponsibilityDB.getInstance(mView.getContext()).getsSorted(user, Responsibility.TYPE_DAILY);
+        int toPosition = getPosition(responsibilitiesNew, newResponsibility);
+        // update data array
+        responsibilities.remove(fromPosition);
+        responsibilities.add(toPosition, newResponsibility);
+        // notify adapter
+        responsibilityRecyclerViewAdapter.notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public static void update(Responsibility responsibility){
+        int position = getPosition(responsibilities, responsibility);
+        responsibilities.set(position, responsibility);
+        responsibilityRecyclerViewAdapter.notifyItemChanged(position);
+    }
+
+    public static void add(Responsibility responsibility){
+        ResponsibilityDB.getInstance(context).add(responsibility);
+        int id = ResponsibilityDB.getInstance(context).getMaxId();
+        responsibility.setId(id);
+        List<Responsibility> newResponsibilities = ResponsibilityDB.getInstance(context).getsSorted(user, Responsibility.TYPE_DAILY);
+        int insertIndex = getPosition(newResponsibilities, responsibility);
+        if (insertIndex == -1)
+            insertIndex = 0;
+        responsibilities.add(insertIndex, responsibility);
+        responsibilityRecyclerViewAdapter.notifyItemInserted(insertIndex);
+    }
+
+    public static int getPosition(List<Responsibility> responsibilities, Responsibility responsibility){
+        int position = -1;
+        for (int i = 0; i < responsibilities.size(); i++){
+            if (responsibilities.get(i).getId() == responsibility.getId()){
+                return  i;
+            }
+        }
+        return position;
     }
 }

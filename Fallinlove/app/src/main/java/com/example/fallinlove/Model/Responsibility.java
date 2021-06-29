@@ -6,6 +6,9 @@ import java.io.Serializable;
 
 public class Responsibility implements Serializable {
 
+    public static int TYPE_DAILY = 1;
+    public static int TYPE_RESPONSIBILITY = 2;
+
     private int id;
     private int userId;
     private String name;

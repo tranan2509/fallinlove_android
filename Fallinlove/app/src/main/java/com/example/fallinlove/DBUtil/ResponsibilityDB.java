@@ -81,6 +81,17 @@ public class ResponsibilityDB extends DatabaseHandler{
         return new Responsibility(cursor);
     }
 
+    public int getMaxId(){
+        String query = "SELECT MAX(id) as maxId FROM " + TABLE_RESPONSIBILITY;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        else
+            return -1;
+        return cursor.getInt(cursor.getColumnIndex("maxId"));
+    }
+
     public List<Responsibility> gets(){
         List<Responsibility> responsibilities = new ArrayList<Responsibility>();
         String query = "SELECT * FROM " + TABLE_RESPONSIBILITY;
@@ -219,5 +230,6 @@ public class ResponsibilityDB extends DatabaseHandler{
         cursor.close();
         return cursor.getCount();
     }
+
 
 }

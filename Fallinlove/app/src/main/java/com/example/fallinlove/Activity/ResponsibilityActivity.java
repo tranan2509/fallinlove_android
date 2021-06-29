@@ -214,17 +214,20 @@ public class ResponsibilityActivity extends AppCompatActivity implements View.On
                 String date = DateProvider.convertDateTimePersonToSqlite(txtDate.getText().toString());
                 int type = (int)spnType.getSelectedItemPosition() + 1;
                 int level = (int)spnLevel.getSelectedItemPosition() + 1;
-                if (type == 1){
+                if (type == Responsibility.TYPE_DAILY){
                     Calendar cal = Calendar.getInstance();
                     String now = DateProvider.datetimeFormat.format(cal.getTime());
                     date = now.split(" ")[0] + " " + date.split(" ")[1];
                 }
-
                 Responsibility responsibility = new Responsibility(user.getId(), name, date, type, level, false);
-                ResponsibilityDB.getInstance(v.getContext()).add(responsibility);
+                if (responsibility.getType() == Responsibility.TYPE_DAILY){
+                    DailyFragment.add(responsibility);
+                }else{
+                    ResponsibilityFragment.add(responsibility);
+                }
 
-                DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(v.getContext()).getsSorted(user, 1));
-                ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(v.getContext()).getsSorted(user, 2));
+//                DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(v.getContext()).getsSorted(user, 1));
+//                ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(v.getContext()).getsSorted(user, 2));
                 bottomSheetDialog.hide();
             }
         });

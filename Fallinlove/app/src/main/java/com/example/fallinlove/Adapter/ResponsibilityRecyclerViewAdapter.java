@@ -121,10 +121,16 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
         holder.ckbState.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Responsibility oldResponsibility = responsibility;
                 responsibility.setState(holder.ckbState.isChecked());
-                ResponsibilityDB.getInstance(holder.itemView.getContext()).update(responsibility);
-                DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(holder.itemView.getContext()).getsSorted(user, 1));
-                ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(holder.itemView.getContext()).getsSorted(user, 2));
+                if (responsibility.getType() == Responsibility.TYPE_DAILY){
+                    DailyFragment.move(oldResponsibility, responsibility);
+                }else{
+                    ResponsibilityFragment.move(oldResponsibility, responsibility);
+                }
+//                ResponsibilityDB.getInstance(holder.itemView.getContext()).update(responsibility);
+//                DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(holder.itemView.getContext()).getsSorted(user, 1));
+//                ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(holder.itemView.getContext()).getsSorted(user, 2));
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +206,8 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
     }
 
     public void edit(View view, Responsibility responsibility){
+        Responsibility oldResponsibility = new Responsibility(responsibility.getId(), responsibility.getUserId(), responsibility.getName(), responsibility.getDate(),
+                responsibility.getType(), responsibility.getLevel(), responsibility.isState());
         EditText txtName = view.findViewById(R.id.txtName);
         EditText txtDate = view.findViewById(R.id.txtDate);
         String name = txtName.getText().toString();
@@ -210,12 +218,30 @@ public class ResponsibilityRecyclerViewAdapter extends RecyclerView.Adapter<Resp
         responsibility.setDate(DateProvider.convertDateTimePersonToSqlite(date));
         responsibility.setType(type);
         responsibility.setLevel(level);
-        ResponsibilityDB.getInstance(view.getContext()).update(responsibility);
-        if (type == 1){
+        if (responsibility.getType() == Responsibility.TYPE_DAILY && oldResponsibility.getType() == Responsibility.TYPE_DAILY){
+            DailyFragment.move(oldResponsibility, responsibility);
+            DailyFragment.update(responsibility);
+        }else if (responsibility.getType() == Responsibility.TYPE_RESPONSIBILITY && oldResponsibility.getType() == Responsibility.TYPE_RESPONSIBILITY){
+            ResponsibilityFragment.move(oldResponsibility, responsibility);
+            ResponsibilityFragment.update(responsibility);
+        }else if (responsibility.getType() == Responsibility.TYPE_DAILY){
+            ResponsibilityDB.getInstance(view.getContext()).update(responsibility);
             ResponsibilityDB.getInstance(view.getContext()).updateDaily(responsibility);
+            removeItem(responsibility);
+            DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(view.getContext()).getsSorted(user, Responsibility.TYPE_DAILY));
+            DailyFragment.responsibilities = ResponsibilityDB.getInstance(view.getContext()).getsSorted(user, Responsibility.TYPE_DAILY);
+        }else{
+            ResponsibilityDB.getInstance(view.getContext()).update(responsibility);
+            removeItem(responsibility);
+            ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(view.getContext()).getsSorted(user, Responsibility.TYPE_RESPONSIBILITY));
+            ResponsibilityFragment.responsibilities = ResponsibilityDB.getInstance(view.getContext()).getsSorted(user, Responsibility.TYPE_RESPONSIBILITY);
         }
-        DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(view.getContext()).getsSorted(user, 1));
-        ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(view.getContext()).getsSorted(user, 2));
+//        ResponsibilityDB.getInstance(view.getContext()).update(responsibility);
+//        if (type == 1){
+//            ResponsibilityDB.getInstance(view.getContext()).updateDaily(responsibility);
+//        }
+//        DailyFragment.loadRecycleView(ResponsibilityDB.getInstance(view.getContext()).getsSorted(user, 1));
+//        ResponsibilityFragment.loadRecycleView(ResponsibilityDB.getInstance(view.getContext()).getsSorted(user, 2));
     }
 
     public void delete(View view, Responsibility responsibility){
