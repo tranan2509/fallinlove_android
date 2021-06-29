@@ -147,6 +147,8 @@ public class RestaurantRecyclerViewAdapter extends RecyclerView.Adapter<Restaura
         holder.txtViewTime.setText(restaurant.getTimeStart() + " - " + restaurant.getTimeEnd());
         if (restaurantRandom != null && restaurant.getId() == restaurantRandom.getId()){
             holder.imgBackground.setBackgroundColor(Color.parseColor("#dfe4ba"));
+        }else{
+            holder.imgBackground.setBackgroundColor(Color.parseColor("#ffffff"));
         }
 
         holder.btnGo.setOnClickListener(new View.OnClickListener() {

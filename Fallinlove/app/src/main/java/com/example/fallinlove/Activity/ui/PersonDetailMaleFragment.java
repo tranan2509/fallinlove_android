@@ -1,6 +1,12 @@
 package com.example.fallinlove.Activity.ui;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +17,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fallinlove.Adapter.ItemDetailMaleRecyclerViewAdapter;
+import com.example.fallinlove.DBUtil.PersonDB;
 import com.example.fallinlove.DBUtil.PersonDetailDB;
 import com.example.fallinlove.Model.ItemDetail;
 import com.example.fallinlove.Model.Person;
 import com.example.fallinlove.Model.PersonDetail;
+import com.example.fallinlove.Provider.ImageConvert;
+import com.example.fallinlove.Provider.ImageResizer;
 import com.example.fallinlove.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +43,8 @@ public class PersonDetailMaleFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static View mView;
     private static Person mPerson;
+    private static final int PICK_IMAGE = 111;
+    public static Context context;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -75,9 +87,9 @@ public class PersonDetailMaleFragment extends Fragment {
     }
 
     //Model
-    List<PersonDetail> personDetails;
-    ItemDetailMaleRecyclerViewAdapter itemDetailRecyclerViewAdapter;
-    List<ItemDetail> itemDetails;
+    public static List<PersonDetail> personDetails;
+    public static ItemDetailMaleRecyclerViewAdapter itemDetailRecyclerViewAdapter;
+    public static List<ItemDetail> itemDetails;
 
     RecyclerView recyclerViewPersonDetail;
 
@@ -86,7 +98,7 @@ public class PersonDetailMaleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_person_detail_male, container, false);
-
+        context = mView.getContext();
         getModel(mView);
         getViewFragment(mView);
         setView(mView);
@@ -112,5 +124,48 @@ public class PersonDetailMaleFragment extends Fragment {
         recyclerViewPersonDetail.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerViewPersonDetail.setItemAnimator(new DefaultItemAnimator());
         recyclerViewPersonDetail.setAdapter(itemDetailRecyclerViewAdapter);
+    }
+
+    public static void getImageGallery(){
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        getIntent.setType("image/*");
+        Intent pickIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+        Intent chooserIntent = Intent.createChooser(getIntent, "Chọn ảnh");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
+        ((Activity)context).startActivityForResult(chooserIntent, PICK_IMAGE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            try {
+                Uri imageUri = data.getData();
+                Bitmap photo = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
+                photo = ImageResizer.reduceBitmapSize(photo, ImageResizer.MAX_SIZE);
+                mPerson.setAvatar(ImageConvert.BitmapToArrayByte(photo));
+                PersonDB.getInstance(context).update(mPerson);
+                ItemDetailMaleRecyclerViewAdapter.ViewHolderPerson.imgViewAvatar.setImageBitmap(photo);
+            } catch (IOException e) {
+
+            }
+            return;
+        }
+    }
+
+    public static void addPersonDetail(PersonDetail personDetail){
+        ItemDetail itemDetail = new ItemDetail(personDetail, ItemDetail.ItemType.PERSON_DETAIL);
+        itemDetails.add(itemDetail);
+        itemDetailRecyclerViewAdapter.notifyItemInserted(itemDetails.size() - 1);
+    }
+
+    public static void addNewPersonDetail(){
+        PersonDetail personDetail = new PersonDetail(mPerson.getId(), "Tiêu đề", "Nội dung tiêu đề", true);
+        PersonDetailDB.getInstance(context).add(personDetail);
+        ItemDetail itemDetail = new ItemDetail(personDetail, ItemDetail.ItemType.PERSON_DETAIL);
+        itemDetails.add(itemDetails.size(), itemDetail);
+        itemDetailRecyclerViewAdapter.notifyItemInserted(itemDetails.size() - 1);
     }
 }

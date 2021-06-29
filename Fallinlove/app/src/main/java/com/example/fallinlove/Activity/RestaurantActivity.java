@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -136,22 +137,26 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
             }
         }
         Random random = new Random();
-        new CountDownTimer(6000, 100) {
-            public void onTick(long millisUntilFinished) {
+        if (restaurantsFilter.size() > 0) {
+            new CountDownTimer(6000, 100) {
+                public void onTick(long millisUntilFinished) {
 
-                int position =  random.nextInt(restaurantsFilter.size());
-                restaurantRandom = restaurantsFilter.get(position);
-                txtName.setText(restaurantRandom.getName());
+                    int position = random.nextInt(restaurantsFilter.size());
+                    restaurantRandom = restaurantsFilter.get(position);
+                    txtName.setText(restaurantRandom.getName());
+                    RestaurantRecyclerViewAdapter.restaurantRandom = restaurantRandom;
+//                loadRecycleView(restaurants);
+                    updateStart(restaurantRandom);
+                }
 
-                RestaurantRecyclerViewAdapter.restaurantRandom = restaurantRandom;
-                loadRecycleView(restaurants);
-            }
+                public void onFinish() {
 
-            public void onFinish() {
+                }
 
-            }
-
-        }.start();
+            }.start();
+        }else{
+            Toast.makeText(getApplicationContext(), "Không có cửa hàng nào thỏa điều kiện", Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -188,5 +193,31 @@ public class RestaurantActivity extends AppCompatActivity implements View.OnClic
         restaurantRecyclerViewAdapter = new RestaurantRecyclerViewAdapter(restaurants);
         recyclerViewRestaurant.setAdapter(restaurantRecyclerViewAdapter);
         recyclerViewRestaurant.setItemAnimator(new SlideInUpAnimator());
+    }
+
+    public void updateStart(Restaurant restaurant){
+        int indexRandom = -1;
+        int indexColor = -1;
+        for (int i = 0; i < restaurants.size(); i++){
+            if (restaurants.get(i).isState() == true){
+                indexColor = i;
+                restaurants.get(indexColor).setState(false);
+            }
+            if (restaurants.get(i).getId() == restaurant.getId()){
+                indexRandom = i;
+            }
+            if (indexColor > -1 && indexRandom > -1){
+                break;
+            }
+        }
+        restaurant.setState(true);
+        if (indexRandom > -1) {
+            restaurants.set(indexRandom, restaurant);
+            restaurantRecyclerViewAdapter.notifyItemChanged(indexRandom);
+        }
+        if (indexColor > -1) {
+            restaurants.set(indexColor, restaurants.get(indexColor));
+            restaurantRecyclerViewAdapter.notifyItemChanged(indexColor);
+        }
     }
 }

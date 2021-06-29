@@ -179,6 +179,16 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            //xử lý ở đây
+        }
+    }
+
     private boolean checkPermissionReadExternalStorage() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -191,16 +201,8 @@ public class EditProfileActivity extends AppCompatActivity  implements View.OnCl
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;        }
         } else {
-            return true;    }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            //xử lý ở đây
+            return true;
         }
     }
+
 }
