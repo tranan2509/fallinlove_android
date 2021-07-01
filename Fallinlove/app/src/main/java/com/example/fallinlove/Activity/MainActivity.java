@@ -237,11 +237,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             layoutResponsibility.setVisibility(View.GONE);
         }
 
-        int heightMale = imgViewAvatarMale.getHeight();
-        int heightFemale = imgViewAvatarFemale.getHeight();
-        int height = heightMale > heightFemale ? heightFemale : heightMale;
-        imgViewAvatarMale.setMaxHeight(height);
-        imgViewAvatarFemale.setMaxHeight(height);
     }
 
     public void setOnclick(){

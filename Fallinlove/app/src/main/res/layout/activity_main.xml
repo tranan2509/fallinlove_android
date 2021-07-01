@@ -284,15 +284,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="12dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:paddingBottom="12dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutMale"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_purple"
                     android:layout_weight="1"
@@ -315,6 +315,7 @@
                             android:id="@+id/imgAvatarMale"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            app:layout_constraintDimensionRatio="H,1:1"
                             android:src="@drawable/avatar_male_default"
                             android:scaleType="centerCrop"/>
 
@@ -414,7 +415,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutFemale"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_pink"
                     android:paddingBottom="12dp"
