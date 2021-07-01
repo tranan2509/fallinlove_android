@@ -195,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void setView(){
         chipNavigationBar.setItemSelected(R.id.home, true);
         txtViewDays.setText(String.valueOf(datesLove()));
@@ -237,6 +236,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             layoutMessage.setVisibility(View.GONE);
             layoutResponsibility.setVisibility(View.GONE);
         }
+
+        int heightMale = imgViewAvatarMale.getHeight();
+        int heightFemale = imgViewAvatarFemale.getHeight();
+        int height = heightMale > heightFemale ? heightFemale : heightMale;
+        imgViewAvatarMale.setMaxHeight(height);
+        imgViewAvatarFemale.setMaxHeight(height);
     }
 
     public void setOnclick(){

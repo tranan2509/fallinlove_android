@@ -2,8 +2,10 @@ package com.example.fallinlove.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,10 +62,27 @@ public class AnniversaryActivity extends AppCompatActivity implements View.OnCli
         setOnClick();
     }
 
+    //Exit app
+    boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
-
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+        } else if (!doubleBackToExitPressedOnce) {
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this,"Nhấn trở về thêm một lần nữa để đóng ứng dụng", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        } else {
+            finishAffinity();
+            return;
+        }
     }
+
 
     public void getModel(){
         user = (User) SharedPreferenceProvider.getInstance(this).get("user");

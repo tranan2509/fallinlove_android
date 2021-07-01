@@ -1,13 +1,8 @@
 package com.example.fallinlove.Provider;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.example.fallinlove.R;
 
 import java.util.Date;
-import java.util.stream.IntStream;
 
 public class ZodiacProvider {
 
@@ -38,20 +33,18 @@ public class ZodiacProvider {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String getZodiacName(int id, boolean isMale){
         int position = isMale ? findIndex(zodiacMale, id) : findIndex(zodiacFemale, id);
         return zodiacName[position];
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static int findIndex(int arr[], int t)
     {
-        int len = arr.length;
-        return IntStream.range(0, len)
-                .filter(i -> t == arr[i])
-                .findFirst() // first occurrence
-                .orElse(-1); // No element found
+        for (int i = 0; i < arr.length; i++){
+            if (arr[i] == t)
+                return i;
+        }
+        return  -1;
     }
 
 }
